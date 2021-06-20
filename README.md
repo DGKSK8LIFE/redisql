@@ -10,3 +10,4 @@ Migration tool for Redis to MySQL and vice-versa.
 4. Auto syncing
 5. Scheduling migrations
 6. Migrations logs
+7. Support for different cache replacement policies? (LRU, etc)
