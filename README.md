@@ -7,3 +7,5 @@ Migration tool for Redis to MySQL and vice-versa.
 1. Manual migration from MySQL to Redis via CLI
 2. Migration in a go module
 3. Support for database indexing/sharding with migration
+4. Auto syncing
+5. Scheduling migrations
