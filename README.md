@@ -9,3 +9,4 @@ Migration tool for Redis to MySQL and vice-versa.
 3. Support for database indexing/sharding with migration
 4. Auto syncing
 5. Scheduling migrations
+6. Migrations logs
