@@ -6,8 +6,8 @@ import (
 )
 
 /*
-Flag format:
-	go run main.go migrate --sql=3306 --redis=6379
+Current CLI flag options:
+	go run main.go -sql=3306 -redis=6379
 */
 
 var sql int
