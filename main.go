@@ -7,7 +7,7 @@ import (
 
 /*
 Flag format:
-	go run main.go migrate --sql=localhost:3306 --redis=6379
+	go run main.go migrate --sql=3306 --redis=6379
 */
 
 var sql int
