@@ -7,7 +7,7 @@ import (
 
 /*
 Current CLI flag options:
-	go run main.go -sql=3306 -redis=6379
+	go run main.go -sql 3306 -redis 6379
 */
 
 var sql int
