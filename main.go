@@ -20,7 +20,5 @@ func init() {
 }
 
 func main() {
-	if flag.Arg(0) == "migrate" {
-		fmt.Printf("sql: %d\nredis: %d\n", sql, redis)
-	}
+	fmt.Printf("sql: %d\nredis: %d\n", sql, redis)
 }
