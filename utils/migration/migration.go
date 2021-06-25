@@ -12,7 +12,7 @@ import (
 
 var ctx = context.Background()
 
-// Migrate takes an SQL table's rows and converts them into Redis hashes
+// Migrate takes an SQL table and converts its rows into Redis hashes
 func Migrate() error {
 	db, err := sql.Open("mysql", "root@/celebrities")
 	if err != nil {
