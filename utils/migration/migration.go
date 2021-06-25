@@ -1,16 +1,14 @@
 package migration
 
 import (
+	"context"
 	"database/sql"
-	"fmt"
 
+	"github.com/go-redis/redis/v8"
 	_ "github.com/go-sql-driver/mysql"
 )
 
-type Celebrity struct {
-	Name string `sql:"name"`
-	Age  uint8  `sql:"age"`
-}
+var ctx = context.Background()
 
 // Migrate takes an SQL table's rows and converts them into Redis hashes
 func Migrate() error {
@@ -23,10 +21,14 @@ func Migrate() error {
 	if err != nil {
 		return err
 	}
-
 	defer rows.Close()
 
-	var celebrities []Celebrity
+	rdb := redis.NewClient(&redis.Options{
+		Addr:     "localhost:6379",
+		Password: "",
+		DB:       0,
+	})
+
 	for rows.Next() {
 		var name string
 		var age uint8
@@ -34,17 +36,10 @@ func Migrate() error {
 		if err != nil {
 			return err
 		}
-
-		fmt.Println(name, age)
-		celebrities = append(celebrities, Celebrity{Name: name, Age: age})
+		rdb.HSet(ctx, "celebrity", map[string]interface{}{"name": name, "age": age})
 	}
 	if err := rows.Err(); err != nil {
 		return err
 	}
-	// rdb := redis.NewClient(&redis.Options{
-	// 	Addr:     "localhost:6379",
-	// 	Password: "",
-	// 	DB:       0,
-	// })
 	return nil
 }
