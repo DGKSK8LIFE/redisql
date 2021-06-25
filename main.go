@@ -8,11 +8,11 @@ Current CLI flag options:
 // var sqlPort string
 // var redisPort string
 
-func init() {
-	// flag.StringVar(&sqlPort, "sql", "localhost:3306", "sql port")
-	// flag.StringVar(&redisPort, "redis", "localhost:6379", "redis port")
-	// flag.Parse()
-}
+// func init() {
+// 	// flag.StringVar(&sqlPort, "sql", "localhost:3306", "sql port")
+// 	// flag.StringVar(&redisPort, "redis", "localhost:6379", "redis port")
+// 	// flag.Parse()
+// }
 
 func main() {
 
