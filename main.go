@@ -1,6 +1,9 @@
 package main
 
-import "redis-sql/utils/migration"
+import (
+	"log"
+	"redis-sql/utils/migration"
+)
 
 /*
 Current CLI flag options:
@@ -17,5 +20,8 @@ Current CLI flag options:
 // }
 
 func main() {
-	migration.Migrate()
+	err := migration.Migrate()
+	if err != nil {
+		log.Fatal(err)
+	}
 }
