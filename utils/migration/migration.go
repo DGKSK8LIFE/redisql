@@ -12,6 +12,8 @@ type Celebrity struct {
 	Age  uint8  `sql:"age"`
 }
 
+
+// Migrate takes an SQL table's rows and converts them into Redis hashes
 func Migrate() error {
 	db, err := sql.Open("mysql", "root:password@/celebrities")
 	if err != nil {
