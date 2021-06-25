@@ -23,6 +23,7 @@ func Migrate() error {
 	if err != nil {
 		return err
 	}
+
 	defer rows.Close()
 
 	var celebrities []Celebrity

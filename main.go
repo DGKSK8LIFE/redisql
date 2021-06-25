@@ -1,7 +1,6 @@
 package main
 
 import (
-	"log"
 	"redis-sql/utils/migration"
 )
 
