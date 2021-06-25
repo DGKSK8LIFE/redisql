@@ -3,9 +3,11 @@ package migration
 import (
 	"context"
 	"database/sql"
+	"fmt"
 
 	"github.com/go-redis/redis/v8"
 	_ "github.com/go-sql-driver/mysql"
+	uuid "github.com/satori/go.uuid"
 )
 
 var ctx = context.Background()
@@ -36,7 +38,10 @@ func Migrate() error {
 		if err != nil {
 			return err
 		}
-		rdb.HSet(ctx, "celebrity", map[string]interface{}{"name": name, "age": age})
+
+		id := uuid.NewV4()
+		fmt.Println(id)
+		rdb.HSet(ctx, id.String(), map[string]interface{}{"name": name, "age": age})
 	}
 	if err := rows.Err(); err != nil {
 		return err
