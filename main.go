@@ -22,6 +22,6 @@ Current CLI flag options:
 func main() {
 	err := migration.Migrate()
 	if err != nil {
-		log.Fatal(err)
+		panic(error)
 	}
 }
