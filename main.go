@@ -1,5 +1,7 @@
 package main
 
+import "redis-sql/utils/migration"
+
 /*
 Current CLI flag options:
 	go run main.go -sql 3306 -redis 6379
@@ -15,5 +17,5 @@ Current CLI flag options:
 // }
 
 func main() {
-
+	migration.Migrate()
 }
