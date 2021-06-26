@@ -17,13 +17,13 @@ var ctx = context.Background()
 - use parameters instead of preset values for SQL and Redis methods
 - allow for reverse migration through Migrate()
 */
-func Migrate() error {
-	db, err := sql.Open("mysql", "root@/celebrities")
+func Migrate(user, database, table string) error {
+	db, err := sql.Open("mysql", fmt.Sprintf("%s@/%s", user, database))
 	if err != nil {
 		return err
 	}
 
-	rows, err := db.Query(`SELECT * FROM celebrity;`)
+	rows, err := db.Query(fmt.Sprintf(`SELECT * FROM %s;`, table))
 	if err != nil {
 		return err
 	}
