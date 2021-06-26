@@ -1,6 +1,6 @@
 # redis-sql 
 
-Migration tool for Redis to MySQL and vice-versa.
+Migrate data from MySQL to Redis. 
 
 ## Tech Stack 
 
