@@ -19,7 +19,7 @@ Current CLI flag options:
 // }
 
 func main() {
-	err := migration.Migrate("root", "celebrities", "celebrity")
+	err := migration.Migrate("root", "celebrities", "celebrity", true)
 	if err != nil {
 		panic(err)
 	}
