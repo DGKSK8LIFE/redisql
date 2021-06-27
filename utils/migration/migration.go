@@ -7,14 +7,11 @@ import (
 
 	"github.com/go-redis/redis/v8"
 	_ "github.com/go-sql-driver/mysql"
-	uuid "github.com/satori/go.uuid"
+	// uuid "github.com/satori/go.uuid"
 )
 
 var ctx = context.Background()
 
-/* Todo:
-Add inferred/preset values for Migrate function to support any SQL schema (SQL query wise, can use a custom struct, redis-side may vary)
-*/
 // Migrate takes an SQL table and converts its rows into Redis hashes
 func Migrate(user, password, database, table string) error {
 	var db *sql.DB
@@ -50,17 +47,20 @@ func Migrate(user, password, database, table string) error {
 
 	defer rows.Close()
 
+	columns, err := rows.Columns()
 	for rows.Next() {
-		var name string
-		var age uint8
-		err := rows.Scan(&name, &age)
+		if err != nil {
+			return err
+		}
+		values := make([]sql.RawBytes, len(columns))
+		err = rows.Scan(&columns)
 		if err != nil {
 			return err
 		}
 
-		id := uuid.NewV4()
-		fmt.Println(id)
-		rdb.HSet(ctx, id.String(), map[string]interface{}{"name": name, "age": age})
+		// id := uuid.NewV4()
+		// fmt.Println(id)
+		// rdb.HSet(ctx, id.String(), map[string]interface{}{"name": name, "age": age})
 	}
 	if err := rows.Err(); err != nil {
 		return err
