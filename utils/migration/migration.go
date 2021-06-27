@@ -21,13 +21,13 @@ func Migrate(user, password, database, table string) error {
 	var err error
 
 	switch password {
-	case "":
-		db, err = sql.Open("mysql", fmt.Sprintf("%s:%s@/%s", user, password, database))
+	case " ":
+		db, err = sql.Open("mysql", fmt.Sprintf("%s@/%s", user, database))
 		if err != nil {
 			return err
 		}
 	default:
-		db, err = sql.Open("mysql", fmt.Sprintf("%s@/%s", user, database))
+		db, err = sql.Open("mysql", fmt.Sprintf("%s:%s@/%s", user, password, database))
 		if err != nil {
 			return err
 		}

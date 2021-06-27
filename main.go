@@ -5,7 +5,7 @@ import (
 )
 
 func main() {
-	err := migration.Migrate("root", " ", "celebrities", "celebrity")
+	err := migration.Migrate("root", "", "celebrities", "celebrity")
 	if err != nil {
 		panic(err)
 	}
