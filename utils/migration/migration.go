@@ -12,8 +12,9 @@ import (
 
 var ctx = context.Background()
 
-// Todo:
-// Add inferred/preset values for Migrate function to support any SQL schema
+/* Todo:
+Add inferred/preset values for Migrate function to support any SQL schema
+*/
 // Migrate takes an SQL table and converts its rows into Redis hashes
 func Migrate(user, password, database, table string) error {
 	var db *sql.DB
