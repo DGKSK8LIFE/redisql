@@ -19,12 +19,14 @@ Add inferred/preset values for Migrate function to support any SQL schema (can d
 func Migrate(user, password, database, table string) error {
 	var db *sql.DB
 	var err error
-	if password != "" || password != " " {
+
+	switch password {
+	case "":
 		db, err = sql.Open("mysql", fmt.Sprintf("%s:%s@/%s", user, password, database))
 		if err != nil {
 			return err
 		}
-	} else {
+	default:
 		db, err = sql.Open("mysql", fmt.Sprintf("%s@/%s", user, database))
 		if err != nil {
 			return err
@@ -41,6 +43,7 @@ func Migrate(user, password, database, table string) error {
 	if err != nil {
 		return err
 	}
+
 	defer rows.Close()
 
 	for rows.Next() {
