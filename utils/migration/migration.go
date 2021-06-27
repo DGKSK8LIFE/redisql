@@ -33,11 +33,15 @@ func Migrate(user, password, database, table string) error {
 		}
 	}
 
+	defer db.Close()
+
 	rdb := redis.NewClient(&redis.Options{
 		Addr:     "localhost:6379",
 		Password: "",
 		DB:       0,
 	})
+
+	defer rdb.Close()
 
 	rows, err := db.Query(fmt.Sprintf(`SELECT * FROM %s;`, table))
 	if err != nil {
