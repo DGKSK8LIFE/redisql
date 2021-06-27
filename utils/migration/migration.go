@@ -48,16 +48,33 @@ func Migrate(user, password, database, table string) error {
 	defer rows.Close()
 
 	columns, err := rows.Columns()
+	if err != nil {
+		return err
+	}
+
+	values := make([]sql.RawBytes, len(columns))
+
+	scanArgs := make([]interface{}, len(values))
+	for i := range values {
+		scanArgs[i] = &values[i]
+	}
+
 	for rows.Next() {
-		if err != nil {
-			return err
-		}
-		values := make([]sql.RawBytes, len(columns))
-		err = rows.Scan(&columns)
+		err = rows.Scan(scanArgs...)
 		if err != nil {
 			return err
 		}
 
+		var value string
+		for i, col := range values {
+			if col == nil {
+				value = "NULL"
+			} else {
+				value = string(col)
+			}
+			fmt.Println(columns[i], ": ", value)
+		}
+		fmt.Println("------------------------------------")
 		// id := uuid.NewV4()
 		// fmt.Println(id)
 		// rdb.HSet(ctx, id.String(), map[string]interface{}{"name": name, "age": age})
