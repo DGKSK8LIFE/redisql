@@ -7,6 +7,7 @@ import (
 
 	"github.com/go-redis/redis/v8"
 	_ "github.com/go-sql-driver/mysql"
+	uuid "github.com/satori/go.uuid"
 	// uuid "github.com/satori/go.uuid"
 )
 
@@ -53,7 +54,6 @@ func Migrate(user, password, database, table string) error {
 	}
 
 	values := make([]sql.RawBytes, len(columns))
-
 	scanArgs := make([]interface{}, len(values))
 	for i := range values {
 		scanArgs[i] = &values[i]
@@ -65,19 +65,13 @@ func Migrate(user, password, database, table string) error {
 			return err
 		}
 
-		var value string
+		rowMap := make(map[string]interface{})
 		for i, col := range values {
-			if col == nil {
-				value = "NULL"
-			} else {
-				value = string(col)
-			}
-			fmt.Println(columns[i], ": ", value)
+			rowMap[columns[i]] = string(col)
 		}
-		fmt.Println("------------------------------------")
-		// id := uuid.NewV4()
-		// fmt.Println(id)
-		// rdb.HSet(ctx, id.String(), map[string]interface{}{"name": name, "age": age})
+		id := uuid.NewV4()
+		fmt.Println(id)
+		rdb.HSet(ctx, id.String(), rowMap)
 	}
 	if err := rows.Err(); err != nil {
 		return err
