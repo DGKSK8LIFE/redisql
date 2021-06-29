@@ -59,6 +59,7 @@ func Migrate(user, password, database, table string) error {
 		scanArgs[i] = &values[i]
 	}
 
+	fmt.Println("Redis Keys:\n")
 	for rows.Next() {
 		err = rows.Scan(scanArgs...)
 		if err != nil {
@@ -76,5 +77,6 @@ func Migrate(user, password, database, table string) error {
 	if err := rows.Err(); err != nil {
 		return err
 	}
+	fmt.Println("\nMigration Complete!")
 	return nil
 }
