@@ -8,7 +8,6 @@ import (
 	"github.com/go-redis/redis/v8"
 	_ "github.com/go-sql-driver/mysql"
 	uuid "github.com/satori/go.uuid"
-	// uuid "github.com/satori/go.uuid"
 )
 
 var ctx = context.Background()
