@@ -13,11 +13,6 @@ import (
 
 var ctx = context.Background()
 
-/*
-Todo:
-support migrating relational schema (mainly primary/foreign keys, no prospect of table join abstractions for now):
-	- most likely will be implemented through references in hashes with programmatic abstraction
-*/
 // Migrate takes an SQL table and converts its rows into Redis hashes
 func Migrate(user, password, database, table string) error {
 	var db *sql.DB
