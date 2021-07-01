@@ -8,7 +8,7 @@ Migrate data from MySQL to Redis.
 - Redis
 - MySQL 
 
-## Limitations
+## Current Functionality and Limitations
 
 - [x] Manual migration of MySQL tables to Redis via CLI
 - [ ] Support for other SQL servers
