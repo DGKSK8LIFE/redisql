@@ -2,6 +2,14 @@
 
 Migrate data from MySQL to Redis. 
 
+## Example Usage
+
+### Cli
+
+```bash
+go run main.go migrate --user=josh --password=joshmicheal15 --database=celebrities --table=celebrity
+```
+
 ## Tech Stack 
 
 - Go 
