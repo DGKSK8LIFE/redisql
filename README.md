@@ -19,9 +19,9 @@ go run main.go migrate --user=josh --password=joshmicheal15 --database=celebriti
 ## Current Functionality and Limitations
 
 - [x] Manual migration of MySQL tables to Redis via CLI
-- [ ] Support for other SQL servers
 - [ ] Support for migration of relational schema 
-- [ ] Auto sync data
+- [ ] Auto syncing data
 - [ ] Scheduling migrations
 - [ ] TTL Support
-- [ ] Migrations logs
+- [ ] Improved migration logs
+- [ ] Support for other SQL servers such as PostgreSQL and Microsoft SQL Server
