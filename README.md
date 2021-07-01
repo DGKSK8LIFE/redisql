@@ -8,12 +8,12 @@ Migrate data from MySQL to Redis.
 - Redis
 - MySQL 
 
-## Desired Features
+## Limitations
 
-- [x] Manual migration from MySQL to Redis via CLI
-- [ ] Migration in a go module
-- [ ] Support for database indexing/sharding with migration
-- [ ] Auto syncing
+- [x] Manual migration of MySQL tables to Redis via CLI
+- [ ] Support for other SQL servers
+- [ ] Support for migration of relational schema 
+- [ ] Auto sync data
 - [ ] Scheduling migrations
+- [ ] TTL Support
 - [ ] Migrations logs
-- [ ] Support for different cache replacement policies? (LRU, etc)
