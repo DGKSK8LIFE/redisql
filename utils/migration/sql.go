@@ -5,7 +5,7 @@ import (
 	"fmt"
 )
 
-func OpenSQL(user, password, database string, db *sql.DB, err error) error {
+func OpenSQL(db *sql.DB, user, password, database string, err error) error {
 	switch password {
 	case " ":
 		db, err = sql.Open("mysql", fmt.Sprintf("%s@/%s", user, database))
