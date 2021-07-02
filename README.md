@@ -1,6 +1,6 @@
 # redis-sql 
 
-Migrate data from MySQL to Redis. 
+Easily migrate data from MySQL to Redis. 
 
 ## Example Usage
 
