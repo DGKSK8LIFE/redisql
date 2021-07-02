@@ -5,6 +5,7 @@ import (
 	"fmt"
 )
 
+// OpenSQL opens a MySQL connection with a desired user, password, and database name
 func OpenSQL(user, password, database string) (*sql.DB, error) {
 	switch password {
 	case " ":
