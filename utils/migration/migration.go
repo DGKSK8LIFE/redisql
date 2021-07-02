@@ -17,18 +17,7 @@ func Migrate(user, password, database, table, redisAddress, redisPassword string
 	var db *sql.DB
 	var err error
 
-	switch password {
-	case " ":
-		db, err = sql.Open("mysql", fmt.Sprintf("%s@/%s", user, database))
-		if err != nil {
-			return err
-		}
-	default:
-		db, err = sql.Open("mysql", fmt.Sprintf("%s:%s@/%s", user, password, database))
-		if err != nil {
-			return err
-		}
-	}
+	db, err = OpenSQL(db, user, password, database)
 
 	defer db.Close()
 

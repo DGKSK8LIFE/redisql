@@ -5,18 +5,20 @@ import (
 	"fmt"
 )
 
-func OpenSQL(db *sql.DB, user, password, database string, err error) error {
+func OpenSQL(user, password, database string, err error) (*sql.DB, error) {
 	switch password {
 	case " ":
-		db, err = sql.Open("mysql", fmt.Sprintf("%s@/%s", user, database))
+		db, err := sql.Open("mysql", fmt.Sprintf("%s@/%s", user, database))
 		if err != nil {
-			return err
+			return nil, err
 		}
+		return db, nil
 	default:
-		db, err = sql.Open("mysql", fmt.Sprintf("%s:%s@/%s", user, password, database))
+		db, err := sql.Open("mysql", fmt.Sprintf("%s:%s@/%s", user, password, database))
 		if err != nil {
-			return err
+			return nil, err
 		}
+		return db, nil
 	}
-	return nil
+	return nil, nil
 }
