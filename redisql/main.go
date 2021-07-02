@@ -4,7 +4,7 @@ import (
 	"flag"
 	"os"
 
-	migration "github.com/DGKSK8LIFE/redisql"
+	redisql "github.com/DGKSK8LIFE/redisql"
 )
 
 var user *string
@@ -26,7 +26,7 @@ func init() {
 }
 
 func main() {
-	err := migration.Migrate(*user, *password, *database, *table, *redisAddr, *redisPass)
+	err := redisql.Migrate(*user, *password, *database, *table, *redisAddr, *redisPass)
 	if err != nil {
 		panic(err)
 	}

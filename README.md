@@ -36,7 +36,7 @@ import (
 )
 
 func main() {
-    err := migration.Migrate("josh1", "joshmark52", "celebrities", "celebrity", "localhost:6379", "joshmark52")
+    err := redisql.Migrate("josh1", "joshmark52", "celebrities", "celebrity", "localhost:6379", "joshmark52")
     if err != nil {
         panic(err)
     }
