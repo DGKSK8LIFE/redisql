@@ -15,7 +15,7 @@ var redisPass *string
 
 func init() {
 	migrateFlag := flag.NewFlagSet("migrate", flag.ExitOnError)
-	user = migrateFlag.String("user", "root", "MySQL user")
+	user = migrateFlag.String("user", "", "MySQL user")
 	password = migrateFlag.String("password", "", "MySQL password")
 	database = migrateFlag.String("database", "", "MySQL database")
 	table = migrateFlag.String("table", "", "MySQL table")
