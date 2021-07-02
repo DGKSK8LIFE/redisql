@@ -3,7 +3,8 @@ package main
 import (
 	"flag"
 	"os"
-	"github.com/DGKSK8LIFE/redis-sql"
+
+	migration "github.com/DGKSK8LIFE/redisql"
 )
 
 var user *string

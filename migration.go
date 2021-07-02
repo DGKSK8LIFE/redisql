@@ -5,7 +5,7 @@ import (
 	"database/sql"
 	"fmt"
 
-	"redis-sql/utils"
+	"github.com/redisql/utils"
 
 	_ "github.com/go-sql-driver/mysql"
 	uuid "github.com/satori/go.uuid"
