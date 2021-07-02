@@ -6,10 +6,6 @@ Migrate data from MySQL to Redis.
 
 ### Cli
 
-```bash
-go run main.go migrate --user=josh --password=joshmicheal15 --database=celebrities --table=celebrity --redisaddr=localhost:6379 -redispass=joshmicheal15
-```
-
 ### Library
 
 ## Tech Stack 
