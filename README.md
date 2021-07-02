@@ -6,7 +6,23 @@ Easily migrate data from MySQL to Redis.
 
 ### Cli
 
+Installation: 
+
+```bash
+go install github.com/DGKSK8LIFE/redisql/cli
+```
+
+Usage:
+
 ### Library
+
+Installation:
+
+```bash
+go get github.com/DGKSK8LIFE/redisql
+```
+
+Usage:
 
 ## Tech Stack 
 
