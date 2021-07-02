@@ -5,6 +5,7 @@ import (
 	"database/sql"
 	"fmt"
 
+	"github.com/DGKSK8LIFE/redisql/utils"
 	_ "github.com/go-sql-driver/mysql"
 	uuid "github.com/satori/go.uuid"
 )
@@ -13,13 +14,13 @@ var ctx = context.Background()
 
 // Migrate takes an SQL table and converts its rows into Redis hashes
 func Migrate(user, password, database, table, redisAddress, redisPassword string) error {
-	db, err := OpenSQL(user, password, database)
+	db, err := utils.OpenSQL(user, password, database)
 	if err != nil {
 		return err
 	}
 	defer db.Close()
 
-	rdb := OpenRedis(redisAddress, redisPassword)
+	rdb := utils.OpenRedis(redisAddress, redisPassword)
 	defer rdb.Close()
 
 	rows, err := db.Query(fmt.Sprintf(`SELECT * FROM %s;`, table))
