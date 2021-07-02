@@ -1,4 +1,4 @@
-module redissql
+module redis-sql
 
 go 1.16
 
