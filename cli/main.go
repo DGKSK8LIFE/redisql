@@ -3,7 +3,7 @@ package main
 import (
 	"flag"
 	"os"
-	"redis-sql/utils/migration"
+	"redis-sql/migration"
 )
 
 var user *string
