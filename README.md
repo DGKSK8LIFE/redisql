@@ -28,6 +28,21 @@ go get github.com/DGKSK8LIFE/redisql
 
 Usage:
 
+```go
+package main
+
+import (
+    "github.com/DGKSK8LIFE/redisql"
+)
+
+func main() {
+    err := migration.Migrate("josh1", "joshmark52", "celebrities", "celebrity", "localhost:6379", "joshmark52")
+    if err != nil {
+        panic(err)
+    }
+}
+```
+
 ## Tech Stack 
 
 - Go 
