@@ -24,6 +24,6 @@ go run main.go migrate --user=josh --password=joshmicheal15 --database=celebriti
 - [ ] Support for migration of relational schema 
 - [ ] Auto syncing data
 - [ ] Scheduling migrations
-- [ ] TTL Support
+- [ ] TTL argument for migrating data 
 - [ ] Improved migration logs
 - [ ] Support for other SQL servers such as PostgreSQL and Microsoft SQL Server
