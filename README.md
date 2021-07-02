@@ -1,4 +1,4 @@
-# redis-sql 
+# redisql 
 
 Easily migrate data from MySQL to Redis. 
 

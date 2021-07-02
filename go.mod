@@ -1,4 +1,4 @@
-module github.com/DGKSK8LIFE/redis-sql 
+module github.com/DGKSK8LIFE/redisql 
 
 go 1.16
 
