@@ -1,4 +1,4 @@
-package utils
+package migration
 
 import "github.com/go-redis/redis/v8"
 
