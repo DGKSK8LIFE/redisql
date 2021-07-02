@@ -13,7 +13,7 @@ import (
 var ctx = context.Background()
 
 // Migrate takes an SQL table and converts its rows into Redis hashes
-func Migrate(user, password, database, table string) error {
+func Migrate(user, password, database, table, redisAddress, redisPassword string) error {
 	var db *sql.DB
 	var err error
 
@@ -33,8 +33,8 @@ func Migrate(user, password, database, table string) error {
 	defer db.Close()
 
 	rdb := redis.NewClient(&redis.Options{
-		Addr:     "localhost:6379",
-		Password: "",
+		Addr:     redisAddress,
+		Password: redisPassword,
 		DB:       0,
 	})
 
