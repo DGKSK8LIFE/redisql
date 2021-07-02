@@ -9,10 +9,14 @@ Easily migrate data from MySQL to Redis.
 Installation: 
 
 ```bash
-go install github.com/DGKSK8LIFE/redisql/cli
+go install github.com/DGKSK8LIFE/redisql/redisql
 ```
 
 Usage:
+
+```bash
+redisql migrate -user=josh1 -password=joshmark52 -database=celebrities -table=celebrity -redisaddr=localhost:6379 -redispass=joshmark52
+```
 
 ### Library
 
