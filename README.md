@@ -21,5 +21,5 @@ Easily migrate data from MySQL to Redis.
 - [ ] Auto syncing data
 - [ ] Scheduling migrations
 - [ ] TTL argument for migrating data 
-- [ ] Improved migration logs
+- [ ] Improved migration logs (log files and proper customization of formatting)
 - [ ] Support for other SQL servers such as PostgreSQL and Microsoft SQL Server
