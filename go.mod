@@ -1,4 +1,4 @@
-module redis-sql
+module github.com/DGKSK8LIFE/redis-sql 
 
 go 1.16
 
