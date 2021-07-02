@@ -10,6 +10,8 @@ Migrate data from MySQL to Redis.
 go run main.go migrate --user=josh --password=joshmicheal15 --database=celebrities --table=celebrity
 ```
 
+### Library
+
 ## Tech Stack 
 
 - Go 
