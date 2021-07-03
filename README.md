@@ -43,13 +43,6 @@ func main() {
     }
 }
 ```
-
-## Tech Stack 
-
-- Go 
-- Redis
-- MySQL 
-
 ## Current Functionality and Limitations
 
 - [x] Manual migration of MySQL tables to Redis via CLI
