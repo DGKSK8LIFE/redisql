@@ -7,13 +7,13 @@ MySQL to Redis migration made easy.
 
 ### CLI
 
-Installation: 
+#### Installation: 
 
 ```bash
 go install github.com/DGKSK8LIFE/redisql/redisql
 ```
 
-Usage:
+#### Usage:
 
 ```bash
 redisql migrate -user=josh1 -password=joshmark52 -database=celebrities -table=celebrity -redisaddr=localhost:6379 -redispass=joshmark52
@@ -21,13 +21,13 @@ redisql migrate -user=josh1 -password=joshmark52 -database=celebrities -table=ce
 
 ### Library
 
-Installation:
+#### Installation:
 
 ```bash
 go get github.com/DGKSK8LIFE/redisql
 ```
 
-Usage:
+#### Usage:
 
 ```go
 package main
@@ -45,7 +45,7 @@ func main() {
 ```
 ## Current Functionality and Limitations
 
-- [x] Manual migration of MySQL tables to Redis via CLI
+- [x] Monolithic migration of MySQL tables to Redis via CLI and Go Module 
 - [ ] Support for migration of relational schema 
 - [ ] Auto syncing data
 - [ ] Scheduling migrations
