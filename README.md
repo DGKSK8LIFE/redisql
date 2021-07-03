@@ -1,7 +1,7 @@
 # redisql 
 [![GoDoc](http://godoc.org/github.com/DGKSK8LIFE/redisql?status.svg)](http://godoc.org/github.com/DGKSK8LIFE/redisql) 
 
-Easily migrate data from MySQL to Redis. 
+MySQL to Redis migration made easy.
 
 ## Example Usage
 
