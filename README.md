@@ -5,7 +5,7 @@ MySQL to Redis migration made easy.
 
 ## Example Usage
 
-### Cli
+### CLI
 
 Installation: 
 
