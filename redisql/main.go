@@ -10,14 +10,14 @@ import (
 var config redisql.Config
 
 func init() {
-	migrateFlag := flag.NewFlagSet("migrate", flag.ExitOnError)
-	user := migrateFlag.String("user", "root", "MySQL user")
-	password := migrateFlag.String("password", "", "MySQL password")
-	database := migrateFlag.String("database", "", "MySQL database")
-	table := migrateFlag.String("table", "", "MySQL table")
-	redisAddr := migrateFlag.String("redisaddr", "", "Redis address")
-	redisPass := migrateFlag.String("redispass", "", "Redis password")
-	migrateFlag.Parse(os.Args[2:])
+	copyFlag := flag.NewFlagSet("migrate", flag.ExitOnError)
+	user := copyFlag.String("user", "root", "MySQL user")
+	password := copyFlag.String("password", "", "MySQL password")
+	database := copyFlag.String("database", "", "MySQL database")
+	table := copyFlag.String("table", "", "MySQL table")
+	redisAddr := copyFlag.String("redisaddr", "", "Redis address")
+	redisPass := copyFlag.String("redispass", "", "Redis password")
+	copyFlag.Parse(os.Args[2:])
 	config = redisql.Config{
 		User:      *user,
 		Password:  *password,
