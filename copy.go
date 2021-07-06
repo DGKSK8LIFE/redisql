@@ -58,7 +58,7 @@ func (c Config) Copy() error {
 			return err
 		}
 
-		rowMap := make(map[string]interface{})
+		rowMap := make(map[string]string)
 		for i, col := range values {
 			rowMap[columns[i]] = string(col)
 		}
