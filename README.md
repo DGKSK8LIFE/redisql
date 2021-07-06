@@ -38,12 +38,12 @@ import (
 
 func main() {
 	config := redisql.Config{
-		SQLUser:      "josh",
-		SQLPassword:  "joshmark52",
-		SQLDatabase:  "celebrities",
-		SQLTable:     "celebrity",
-		RedisAddr: "localhost:6379",
-		RedisPass: "joshmark52",
+		SQLUser:     "josh",
+		SQLPassword: "joshmark52",
+		SQLDatabase: "celebrities",
+		SQLTable:    "celebrity",
+		RedisAddr:   "localhost:6379",
+		RedisPass:   "joshmark52",
 	}
 	err := config.Copy()
 	if err != nil {
