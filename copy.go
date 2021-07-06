@@ -22,8 +22,8 @@ type Config struct {
 
 var ctx = context.Background()
 
-// Migrate takes an SQL table and converts its rows into Redis hashes
-func (c Config) Migrate() error {
+// Copy reads a desired SQL table's rows and writes them to Redis hashes
+func (c Config) Copy() error {
 	db, err := utils.OpenSQL(c.User, c.Password, c.Database)
 	if err != nil {
 		return err
