@@ -10,7 +10,7 @@ import (
 var config redisql.Config
 
 func init() {
-	copyFlag := flag.NewFlagSet("migrate", flag.ExitOnError)
+	copyFlag := flag.NewFlagSet("copy", flag.ExitOnError)
 	user := copyFlag.String("user", "root", "MySQL user")
 	password := copyFlag.String("password", "", "MySQL password")
 	database := copyFlag.String("database", "", "MySQL database")
