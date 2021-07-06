@@ -29,7 +29,7 @@ func init() {
 }
 
 func main() {
-	err := config.Migrate()
+	err := config.Copy()
 	if err != nil {
 		panic(err)
 	}
