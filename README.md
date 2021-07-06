@@ -58,6 +58,5 @@ func main() {
 - [ ] Support for migration of relational schema 
 - [ ] Auto syncing data
 - [ ] Scheduling migrations
-- [ ] TTL argument for migrating data 
 - [ ] Improved migration logs (log files and proper customization of formatting)
 - [ ] Support for other SQL servers such as PostgreSQL and Microsoft SQL Server
