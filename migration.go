@@ -10,20 +10,30 @@ import (
 	uuid "github.com/satori/go.uuid"
 )
 
+// Configuration struct for redisql
+type Config struct {
+	User      string
+	Password  string
+	Database  string
+	Table     string
+	RedisAddr string
+	RedisPass string
+}
+
 var ctx = context.Background()
 
 // Migrate takes an SQL table and converts its rows into Redis hashes
-func Migrate(user, password, database, table, redisAddress, redisPassword string) error {
-	db, err := utils.OpenSQL(user, password, database)
+func (c Config) Migrate() error {
+	db, err := utils.OpenSQL(c.User, c.Password, c.Database)
 	if err != nil {
 		return err
 	}
 	defer db.Close()
 
-	rdb := utils.OpenRedis(redisAddress, redisPassword)
+	rdb := utils.OpenRedis(c.RedisAddr, c.RedisPass)
 	defer rdb.Close()
 
-	rows, err := db.Query(fmt.Sprintf(`SELECT * FROM %s;`, table))
+	rows, err := db.Query(fmt.Sprintf(`SELECT * FROM %s;`, c.Table))
 	if err != nil {
 		return err
 	}
