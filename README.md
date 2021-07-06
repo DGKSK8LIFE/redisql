@@ -38,10 +38,10 @@ import (
 
 func main() {
 	config := redisql.Config{
-		User:      "josh",
-		Password:  "joshmark52",
-		Database:  "celebrities",
-		Table:     "celebrity",
+		SQLUser:      "josh",
+		SQLPassword:  "joshmark52",
+		SQLDatabase:  "celebrities",
+		SQLTable:     "celebrity",
 		RedisAddr: "localhost:6379",
 		RedisPass: "joshmark52",
 	}

@@ -12,19 +12,19 @@ import (
 
 // Configuration struct for redisql
 type Config struct {
-	User      string
-	Password  string
-	Database  string
-	Table     string
-	RedisAddr string
-	RedisPass string
+	SQLUser     string
+	SQLPassword string
+	SQLDatabase string
+	SQLTable    string
+	RedisAddr   string
+	RedisPass   string
 }
 
 var ctx = context.Background()
 
 // Copy reads a desired SQL table's rows and writes them to Redis hashes
 func (c Config) Copy() error {
-	db, err := utils.OpenSQL(c.User, c.Password, c.Database)
+	db, err := utils.OpenSQL(c.SQLUser, c.SQLPassword, c.SQLDatabase)
 	if err != nil {
 		return err
 	}
@@ -33,7 +33,7 @@ func (c Config) Copy() error {
 	rdb := utils.OpenRedis(c.RedisAddr, c.RedisPass)
 	defer rdb.Close()
 
-	rows, err := db.Query(fmt.Sprintf(`SELECT * FROM %s;`, c.Table))
+	rows, err := db.Query(fmt.Sprintf(`SELECT * FROM %s;`, c.SQLTable))
 	if err != nil {
 		return err
 	}

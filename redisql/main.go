@@ -19,12 +19,12 @@ func init() {
 	redisPass := copyFlag.String("redispass", "", "Redis password")
 	copyFlag.Parse(os.Args[2:])
 	config = redisql.Config{
-		User:      *user,
-		Password:  *password,
-		Database:  *database,
-		Table:     *table,
-		RedisAddr: *redisAddr,
-		RedisPass: *redisPass,
+		SQLUser:     *user,
+		SQLPassword: *password,
+		SQLDatabase: *database,
+		SQLTable:    *table,
+		RedisAddr:   *redisAddr,
+		RedisPass:   *redisPass,
 	}
 }
 
