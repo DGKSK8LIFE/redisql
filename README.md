@@ -16,7 +16,7 @@ go install github.com/DGKSK8LIFE/redisql/redisql
 #### Usage:
 
 ```bash
-redisql migrate -user=josh1 -password=joshmark52 -database=celebrities -table=celebrity -redisaddr=localhost:6379 -redispass=joshmark52
+redisql copy -user=josh1 -password=joshmark52 -database=celebrities -table=celebrity -redisaddr=localhost:6379 -redispass=joshmark52
 ```
 
 ### Library
@@ -37,10 +37,18 @@ import (
 )
 
 func main() {
-    err := redisql.Migrate("josh1", "joshmark52", "celebrities", "celebrity", "localhost:6379", "joshmark52")
-    if err != nil {
-        panic(err)
-    }
+	config := redisql.Config{
+		User:      "josh",
+		Password:  "joshmark52",
+		Database:  "celebrities",
+		Table:     "celebrity",
+		RedisAddr: "localhost:6379",
+		RedisPass: "joshmark52",
+	}
+	err := config.Copy()
+	if err != nil {
+		panic(err)
+	}
 }
 ```
 
