@@ -51,7 +51,7 @@ func (c Config) Copy() error {
 		scanArgs[i] = &values[i]
 	}
 
-	fmt.Println("Redis Keys:\n")
+	fmt.Println("Redis Hashes:\n")
 	for rows.Next() {
 		err = rows.Scan(scanArgs...)
 		if err != nil {
