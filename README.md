@@ -55,9 +55,8 @@ func main() {
 ## Current Functionality and Limitations
 
 - [x] Simple copying of MySQL tables to Redis via CLI and Go Module 
-- [ ] Improved migration logs (log files and proper customization of formatting)
+- [ ] Improved logs (log files and proper customization of formatting)
 - [ ] More customization over how Redis stores data
-- [ ] Scheduling migrations
-- [ ] Support for migration of relational schema 
-- [ ] Auto syncing data
-- [ ] Support for other SQL servers such as PostgreSQL and Microsoft SQL Server
+- [ ] Auto sync
+- [ ] Support for other SQL servers
+- [ ] Representation of SQL relations within Redis (limited) 
