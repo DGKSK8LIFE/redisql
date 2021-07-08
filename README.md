@@ -16,7 +16,7 @@ go install github.com/DGKSK8LIFE/redisql/redisql
 #### Usage:
 
 ```bash
-redisql copy -user=josh1 -password=joshmark52 -database=celebrities -table=celebrity -redisaddr=localhost:6379 -redispass=joshmark52
+redisql copy -user=josh1 -password=joshmark52 -database=celebrities -table=celebrity -redisaddr=localhost:6379 -redispass=joshmark52 -log=true
 ```
 
 ### Library
@@ -44,6 +44,7 @@ func main() {
 		SQLTable:    "celebrity",
 		RedisAddr:   "localhost:6379",
 		RedisPass:   "joshmark52",
+		Log: 		 true, 
 	}
 	err := config.Copy()
 	if err != nil {
