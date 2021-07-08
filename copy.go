@@ -23,7 +23,7 @@ type Config struct {
 var ctx = context.Background()
 
 // Copy reads a desired SQL table's rows and writes them to Redis hashes
-func (c Config) Copy() error {
+func (c Config) Copy(log bool) error {
 	db, err := utils.OpenSQL(c.SQLUser, c.SQLPassword, c.SQLDatabase)
 	if err != nil {
 		return err
@@ -51,7 +51,9 @@ func (c Config) Copy() error {
 		scanArgs[i] = &values[i]
 	}
 
-	fmt.Println("Redis Hashes:\n")
+	if log {
+		fmt.Println("Redis Hashes:\n")
+	}
 	for rows.Next() {
 		err = rows.Scan(scanArgs...)
 		if err != nil {
@@ -64,7 +66,9 @@ func (c Config) Copy() error {
 		}
 		id := (uuid.NewV4()).String()
 		rdb.HSet(ctx, id, rowMap)
-		utils.PrintRow(id, rowMap)
+		if log {
+			utils.PrintRow(id, rowMap)
+		}
 	}
 	if err := rows.Err(); err != nil {
 		return err
