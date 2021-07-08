@@ -63,8 +63,8 @@ func (c Config) Copy() error {
 			rowMap[columns[i]] = string(col)
 		}
 		id := (uuid.NewV4()).String()
-		utils.PrintRow(id, rowMap)
 		rdb.HSet(ctx, id, rowMap)
+		utils.PrintRow(id, rowMap)
 	}
 	if err := rows.Err(); err != nil {
 		return err
