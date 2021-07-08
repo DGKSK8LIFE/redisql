@@ -11,7 +11,13 @@ var config redisql.Config
 
 func init() {
 	copyFlag := flag.NewFlagSet("copy", flag.ExitOnError)
-	configFile := copyFlag.String("config", "", "yaml config file")
+	user := copyFlag.String("user", "root", "MySQL user")
+	password := copyFlag.String("password", "", "MySQL password")
+	database := copyFlag.String("database", "", "MySQL database")
+	table := copyFlag.String("table", "", "MySQL table")
+	redisAddr := copyFlag.String("redisaddr", "", "Redis address")
+	redisPass := copyFlag.String("redispass", "", "Redis password")
+	log := copyFlag.Bool("log", true, "Log output")
 	copyFlag.Parse(os.Args[2:])
 	config = redisql.Config{
 		SQLUser:     *user,

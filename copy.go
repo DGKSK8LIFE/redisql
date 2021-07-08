@@ -12,13 +12,13 @@ import (
 
 // Configuration struct for redisql
 type Config struct {
-	SQLUser     string `yaml:"sqluser"`
-	SQLPassword string `yaml:"sqlpassword"`
-	SQLDatabase string `yaml:"sqldatabase"`
-	SQLTable    string `yaml:"sqltable"`
-	RedisAddr   string `yaml:"redisaddr"`
-	RedisPass   string `yaml:"redispass"`
-	Log         bool   `yaml:"log"`
+	SQLUser     string
+	SQLPassword string
+	SQLDatabase string
+	SQLTable    string
+	RedisAddr   string
+	RedisPass   string
+	Log         bool
 }
 
 var ctx = context.Background()
