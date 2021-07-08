@@ -56,7 +56,7 @@ func main() {
 ## Current Functionality and Limitations
 
 - [x] Simple copying of entire MySQL tables to Redis via CLI and Go Module 
-- [ ] Improved logs (optional CLI output, improved formatting)	
+- [x] Improved logs (optional CLI output, improved formatting)	
 - [ ] Support for multiple Redis data types (lists, sets, etc)
 - [ ] Support for custom SQL queries
 - [ ] Auto sync
