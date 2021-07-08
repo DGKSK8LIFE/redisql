@@ -62,9 +62,9 @@ func (c Config) Copy() error {
 		for i, col := range values {
 			rowMap[columns[i]] = string(col)
 		}
-		id := uuid.NewV4()
-		fmt.Println(id)
-		rdb.HSet(ctx, id.String(), rowMap)
+		id := (uuid.NewV4()).String()
+		utils.PrintRow(id, rowMap)
+		rdb.HSet(ctx, id, rowMap)
 	}
 	if err := rows.Err(); err != nil {
 		return err
