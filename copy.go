@@ -53,7 +53,7 @@ func (c Config) Copy() error {
 	}
 
 	if c.Log {
-		fmt.Println("Redis Hashes:\n")
+		fmt.Println("\nRedis Hashes:\n")
 	}
 	for rows.Next() {
 		err = rows.Scan(scanArgs...)
