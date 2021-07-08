@@ -44,7 +44,7 @@ func main() {
 		SQLTable:    "celebrity",
 		RedisAddr:   "localhost:6379",
 		RedisPass:   "joshmark52",
-		Log: 		 true, 
+		Log:         true,
 	}
 	err := config.Copy()
 	if err != nil {
