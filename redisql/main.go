@@ -17,6 +17,7 @@ func init() {
 	table := copyFlag.String("table", "", "MySQL table")
 	redisAddr := copyFlag.String("redisaddr", "", "Redis address")
 	redisPass := copyFlag.String("redispass", "", "Redis password")
+	log := copyFlag.Bool("log", true, "Log output")
 	copyFlag.Parse(os.Args[2:])
 	config = redisql.Config{
 		SQLUser:     *user,
@@ -25,11 +26,12 @@ func init() {
 		SQLTable:    *table,
 		RedisAddr:   *redisAddr,
 		RedisPass:   *redisPass,
+		Log:         *log,
 	}
 }
 
 func main() {
-	err := config.Copy(false)
+	err := config.Copy()
 	if err != nil {
 		panic(err)
 	}
