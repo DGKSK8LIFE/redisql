@@ -1,2 +1,3 @@
 .vscode/
 dump.rdb
+redisql/config.yml
