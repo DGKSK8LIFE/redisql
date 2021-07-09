@@ -2,36 +2,32 @@ package main
 
 import (
 	"flag"
+	"io/ioutil"
 	"os"
 
 	redisql "github.com/DGKSK8LIFE/redisql"
+	"gopkg.in/yaml.v2"
 )
 
 var config redisql.Config
+var file *string
 
 func init() {
 	copyFlag := flag.NewFlagSet("copy", flag.ExitOnError)
-	user := copyFlag.String("user", "root", "MySQL user")
-	password := copyFlag.String("password", "", "MySQL password")
-	database := copyFlag.String("database", "", "MySQL database")
-	table := copyFlag.String("table", "", "MySQL table")
-	redisAddr := copyFlag.String("redisaddr", "", "Redis address")
-	redisPass := copyFlag.String("redispass", "", "Redis password")
-	log := copyFlag.Bool("log", true, "Log output")
+	file = copyFlag.String("config", "", "Path to config file")
 	copyFlag.Parse(os.Args[2:])
-	config = redisql.Config{
-		SQLUser:     *user,
-		SQLPassword: *password,
-		SQLDatabase: *database,
-		SQLTable:    *table,
-		RedisAddr:   *redisAddr,
-		RedisPass:   *redisPass,
-		Log:         *log,
-	}
 }
 
 func main() {
-	err := config.Copy()
+	yamlFile, err := ioutil.ReadFile(*file)
+	if err != nil {
+		panic(err)
+	}
+	err = yaml.Unmarshal(yamlFile, &config)
+	if err != nil {
+		panic(err)
+	}
+	err = config.Copy()
 	if err != nil {
 		panic(err)
 	}

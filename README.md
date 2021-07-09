@@ -13,10 +13,24 @@ MySQL to Redis caching made easy
 go install github.com/DGKSK8LIFE/redisql/redisql
 ```
 
+#### Configuration:
+
+Create a YAML file with the following structure:
+
+```yaml
+sqluser: 
+sqlpassword: 
+sqldatabase:
+sqltable:
+redisaddr:
+redispass:
+log:
+```
+
 #### Usage:
 
 ```bash
-redisql copy -user=josh1 -password=joshmark52 -database=celebrities -table=celebrity -redisaddr=localhost:6379 -redispass=joshmark52 -log=true
+redisql copy -config=pathtofile.yml 
 ```
 
 ### Library
