@@ -14,7 +14,7 @@ var file *string
 
 func init() {
 	copyFlag := flag.NewFlagSet("copy", flag.ExitOnError)
-	file = copyFlag.String("file", "", "Path to config file")
+	file = copyFlag.String("config", "", "Path to config file")
 	copyFlag.Parse(os.Args[2:])
 }
 
