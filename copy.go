@@ -56,8 +56,7 @@ func (c Config) Copy() error {
 	}
 	index := 0
 	for rows.Next() {
-		err = rows.Scan(scanArgs...)
-		if err != nil {
+		if err = rows.Scan(scanArgs...); err != nil {
 			return err
 		}
 
@@ -65,6 +64,7 @@ func (c Config) Copy() error {
 		for i, col := range values {
 			rowMap[columns[i]] = string(col)
 		}
+
 		id := fmt.Sprintf("%s:%d", c.SQLTable, index)
 		rdb.HSet(ctx, id, rowMap)
 		if c.Log {
@@ -72,7 +72,7 @@ func (c Config) Copy() error {
 		}
 		index += 1
 	}
-	if err := rows.Err(); err != nil {
+	if err = rows.Err(); err != nil {
 		return err
 	}
 	fmt.Println("Copying Complete!")
