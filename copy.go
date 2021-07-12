@@ -75,6 +75,6 @@ func (c Config) Copy() error {
 	if err := rows.Err(); err != nil {
 		return err
 	}
-	fmt.Println("\nMigration Complete!")
+	fmt.Println("Migration Complete!")
 	return nil
 }
