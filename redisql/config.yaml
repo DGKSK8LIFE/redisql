@@ -1,0 +1,7 @@
+sqluser: root
+sqlpassword: 
+sqldatabase: celebrities
+sqltable: celebrity
+redisaddr: localhost:6379
+redispass: 
+log: true

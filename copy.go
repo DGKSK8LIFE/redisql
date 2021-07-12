@@ -7,7 +7,6 @@ import (
 
 	"github.com/DGKSK8LIFE/redisql/utils"
 	_ "github.com/go-sql-driver/mysql"
-	uuid "github.com/satori/go.uuid"
 )
 
 // Configuration struct for redisql
@@ -55,6 +54,7 @@ func (c Config) Copy() error {
 	if c.Log {
 		fmt.Println("\nRedis Hashes:\n")
 	}
+	index := 0
 	for rows.Next() {
 		err = rows.Scan(scanArgs...)
 		if err != nil {
@@ -65,11 +65,12 @@ func (c Config) Copy() error {
 		for i, col := range values {
 			rowMap[columns[i]] = string(col)
 		}
-		id := (uuid.NewV4()).String()
+		id := fmt.Sprintf("%s:%d", c.SQLTable, index)
 		rdb.HSet(ctx, id, rowMap)
 		if c.Log {
 			utils.PrintRow(id, rowMap)
 		}
+		index += 1
 	}
 	if err := rows.Err(); err != nil {
 		return err
