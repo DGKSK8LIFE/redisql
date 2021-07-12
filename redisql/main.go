@@ -23,12 +23,10 @@ func main() {
 	if err != nil {
 		panic(err)
 	}
-	err = yaml.Unmarshal(yamlFile, &config)
-	if err != nil {
+	if err = yaml.Unmarshal(yamlFile, &config); err != nil {
 		panic(err)
 	}
-	err = config.Copy()
-	if err != nil {
+	if err = config.Copy(); err != nil {
 		panic(err)
 	}
 }
