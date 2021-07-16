@@ -52,7 +52,7 @@ func (c Config) Copy() error {
 	}
 
 	if c.Log {
-		fmt.Println("\nRedis Hashes:\n")
+		fmt.Println("\nRedis Keys:\n")
 	}
 	index := 0
 	for rows.Next() {
