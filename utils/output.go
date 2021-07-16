@@ -7,7 +7,7 @@ func PrintKey(id string, m interface{}) {
 	switch m.(type) {
 	case map[string]string:
 		fmt.Printf("%s: \n\n", id)
-		for key, value := range m {
+		for key, value := range m.(map[string]string) {
 			fmt.Printf("\t%s: %s\n", key, value)
 		}
 	case string:
