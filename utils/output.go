@@ -2,7 +2,7 @@ package utils
 
 import "fmt"
 
-// PrintKey prints a desired key based off of the inferred type
+// PrintKey prints a desired key and its values based off of the inferred type
 func PrintKey(id string, m interface{}) {
 	switch m.(type) {
 	case string:
