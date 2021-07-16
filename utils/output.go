@@ -2,11 +2,17 @@ package utils
 
 import "fmt"
 
-// PrintRow prettyprints a SQL row
-func PrintRow(id string, m map[string]string) {
-	fmt.Printf("%s: \n\n", id)
-	for key, value := range m {
-		fmt.Printf("\t%s: %s\n", key, value)
+// PrintKey prints a desired key based off of the inferred type
+func PrintKey(id string, m interface{}) {
+	switch m.(type) {
+	case map[string]string:
+		fmt.Printf("%s: \n\n", id)
+		for key, value := range m {
+			fmt.Printf("\t%s: %s\n", key, value)
+		}
+	case string:
+		fmt.Printf("%s: \n\n", id)
+		fmt.Printf("\t%s\n", m)
 	}
 	fmt.Println()
 }

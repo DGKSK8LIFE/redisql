@@ -68,7 +68,7 @@ func (c Config) Copy() error {
 		id := fmt.Sprintf("%s:%d", c.SQLTable, index)
 		rdb.HSet(ctx, id, rowMap)
 		if c.Log {
-			utils.PrintRow(id, rowMap)
+			utils.PrintKey(id, rowMap)
 		}
 		index += 1
 	}
