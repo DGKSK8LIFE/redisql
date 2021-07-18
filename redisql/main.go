@@ -26,7 +26,7 @@ func main() {
 	if err = yaml.Unmarshal(yamlFile, &config); err != nil {
 		panic(err)
 	}
-	if err = config.Copy(); err != nil {
+	if err = config.CopyToHash(); err != nil {
 		panic(err)
 	}
 }
