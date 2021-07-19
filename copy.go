@@ -80,8 +80,8 @@ func (c Config) CopyToHash() error {
 	return nil
 }
 
-// CopyToKey reads a desired SQL table's rows and writes them to Redis keys
-func (c Config) CopyToKey(ttl uint) error {
+// CopyToString reads a desired SQL table's rows and writes them to Redis strings
+func (c Config) CopyToString(ttl uint) error {
 	db, err := utils.OpenSQL(c.SQLUser, c.SQLPassword, c.SQLDatabase)
 	if err != nil {
 		return err
