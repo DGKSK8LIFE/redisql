@@ -71,5 +71,5 @@ func main() {
 
 - [x] Simple copying of entire MySQL tables to Redis via CLI and Go Module 
 - [x] Improved logs (optional CLI output, improved formatting)	
-- [ ] Support for multiple Redis data types (lists, sets, etc)
+- [x] Support for most commonly used Redis data types (strings, lists, hashes)
 - [ ] Support for other SQL servers
