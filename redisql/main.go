@@ -11,10 +11,12 @@ import (
 
 var config redisql.Config
 var file *string
+var dataType *string
 
 func init() {
 	copyFlag := flag.NewFlagSet("copy", flag.ExitOnError)
 	file = copyFlag.String("config", "", "Path to config file")
+	dataType = copyFlag.String("type", "string", "Data type in Redis")
 	copyFlag.Parse(os.Args[2:])
 }
 
@@ -26,7 +28,18 @@ func main() {
 	if err = yaml.Unmarshal(yamlFile, &config); err != nil {
 		panic(err)
 	}
-	if err = config.CopyToHash(); err != nil {
-		panic(err)
+	switch *dataType {
+	case "string":
+		if err = config.CopyToString(); err != nil {
+			panic(err)
+		}
+	case "list":
+		if err = config.CopyToList(); err != nil {
+			panic(err)
+		}
+	case "hash":
+		if err = config.CopyToHash(); err != nil {
+			panic(err)
+		}
 	}
 }

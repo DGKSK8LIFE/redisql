@@ -4,7 +4,6 @@ import (
 	"context"
 	"database/sql"
 	"fmt"
-	"time"
 
 	"github.com/DGKSK8LIFE/redisql/utils"
 	_ "github.com/go-sql-driver/mysql"
@@ -81,7 +80,7 @@ func (c Config) CopyToHash() error {
 }
 
 // CopyToString reads a desired SQL table's rows and writes them to Redis strings
-func (c Config) CopyToString(ttl uint) error {
+func (c Config) CopyToString() error {
 	db, err := utils.OpenSQL(c.SQLUser, c.SQLPassword, c.SQLDatabase)
 	if err != nil {
 		return err
@@ -120,7 +119,7 @@ func (c Config) CopyToString(ttl uint) error {
 
 		for i, col := range values {
 			id := fmt.Sprintf("%s:%d:%s", c.SQLTable, index, columns[i])
-			rdb.Set(ctx, id, string(col), time.Duration(ttl)*time.Second)
+			rdb.Set(ctx, id, string(col), 0)
 			if c.Log {
 				utils.PrintKey(id, string(col))
 			}
