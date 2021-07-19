@@ -133,3 +133,60 @@ func (c Config) CopyToKey(ttl uint) error {
 	fmt.Println("Copying Complete!")
 	return nil
 }
+
+// CopyToList reads a desired SQL table's rows and writes them to Redis lists
+func (c Config) CopyToList() error {
+	db, err := utils.OpenSQL(c.SQLUser, c.SQLPassword, c.SQLDatabase)
+	if err != nil {
+		return err
+	}
+	defer db.Close()
+
+	rdb := utils.OpenRedis(c.RedisAddr, c.RedisPass)
+	defer rdb.Close()
+
+	rows, err := db.Query(fmt.Sprintf(`SELECT * FROM %s;`, c.SQLTable))
+	if err != nil {
+		return err
+	}
+
+	defer rows.Close()
+
+	columns, err := rows.Columns()
+	if err != nil {
+		return err
+	}
+
+	values := make([]sql.RawBytes, len(columns))
+	scanArgs := make([]interface{}, len(values))
+	for i := range values {
+		scanArgs[i] = &values[i]
+	}
+
+	if c.Log {
+		fmt.Println("\nRedis Keys:\n")
+	}
+	index := 0
+	for rows.Next() {
+		if err = rows.Scan(scanArgs...); err != nil {
+			return err
+		}
+
+		fields := []string{}
+		for _, col := range values {
+			fields = append(fields, string(col))
+
+		}
+		id := fmt.Sprintf("%s:%d", c.SQLTable, index)
+		rdb.RPush(ctx, id, fields)
+		if c.Log {
+			utils.PrintKey(id, fields)
+		}
+		index += 1
+	}
+	if err = rows.Err(); err != nil {
+		return err
+	}
+	fmt.Println("Copying Complete!")
+	return nil
+}
