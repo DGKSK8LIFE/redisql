@@ -30,7 +30,7 @@ log:
 #### Usage:
 
 ```bash
-redisql copy -config=pathtofile.yml 
+redisql copy -type=string -config=pathtofile.yml 
 ```
 
 ### Library
