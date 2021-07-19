@@ -60,7 +60,7 @@ func main() {
 		RedisPass:   "joshmark52",
 		Log:         true,
 	}
-	err := config.Copy()
+	err := config.CopyToString()
 	if err != nil {
 		panic(err)
 	}
