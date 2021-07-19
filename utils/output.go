@@ -2,8 +2,8 @@ package utils
 
 import "fmt"
 
-// PrintKey prints a desired key and its values based off of the inferred type
-func PrintKey(id string, m interface{}) {
+// printKey prints a desired key and its values based off of the inferred type
+func printKey(id string, m interface{}) {
 	fmt.Printf("%s \n\n", id)
 	switch m.(type) {
 	case string:
