@@ -10,13 +10,13 @@ import (
 )
 
 var config redisql.Config
-var file *string
 var dataType *string
+var file *string
 
 func init() {
 	copyFlag := flag.NewFlagSet("copy", flag.ExitOnError)
-	file = copyFlag.String("config", "", "Path to config file")
 	dataType = copyFlag.String("type", "string", "Data type in Redis")
+	file = copyFlag.String("config", "", "Path to config file")
 	copyFlag.Parse(os.Args[2:])
 }
 
