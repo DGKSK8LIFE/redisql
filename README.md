@@ -73,7 +73,7 @@ func main() {
 }
 ```
 
-#### Other Methods	:
+#### Other Methods:
 
 ```go
 // copy to redis list
