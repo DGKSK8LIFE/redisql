@@ -7,13 +7,11 @@ MySQL to Redis caching made easy
 
 ### CLI
 
-#### Installation: 
+### Installation and Configuration: 
 
 ```bash
 go install github.com/DGKSK8LIFE/redisql/redisql
 ```
-
-#### Configuration:
 
 Create a YAML file with the following structure:
 
@@ -27,7 +25,7 @@ redispass:
 log:
 ```
 
-#### Usage:
+### Usage:
 
 ```bash
 # copy to redis string
@@ -42,12 +40,12 @@ redisql copy -type=hash -config=pathtofile.yml
 
 ### Library
 
-#### Installation:
+### Installation:
 
 ```bash
 go get github.com/DGKSK8LIFE/redisql
 ```
-#### Usage:
+### Usage:
 
 ```go
 package main
@@ -73,7 +71,7 @@ func main() {
 }
 ```
 
-#### Other Methods:
+### Other Methods:
 
 ```go
 // copy to redis list
