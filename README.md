@@ -5,7 +5,7 @@ MySQL to Redis caching made easy
 
 ## Example Usage
 
-### CLI
+## CLI
 
 ### Installation and Configuration: 
 
@@ -38,7 +38,7 @@ redisql copy -type=list -config=pathtofile.yml
 redisql copy -type=hash -config=pathtofile.yml
 ```
 
-### Library
+## Library
 
 ### Installation:
 
