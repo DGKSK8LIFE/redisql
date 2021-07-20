@@ -47,7 +47,6 @@ redisql copy -type=hash -config=pathtofile.yml
 ```bash
 go get github.com/DGKSK8LIFE/redisql
 ```
-
 #### Usage:
 
 ```go
