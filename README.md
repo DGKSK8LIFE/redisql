@@ -58,7 +58,7 @@ import (
 
 func main() {
 	config := redisql.Config{
-		SQLUser:     "",
+		SQLUser:     "josh",
 		SQLPassword: "joshmark52",
 		SQLDatabase: "celebrities",
 		SQLTable:    "celebrity",
