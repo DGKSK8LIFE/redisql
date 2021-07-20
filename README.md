@@ -30,13 +30,13 @@ log:
 #### Usage:
 
 ```bash
-# copy to a redis string
+# copy to redis string
 redisql copy -type=string -config=pathtofile.yml 
 
-# copy to a redis list
+# copy to redis list
 redisql copy -type=list -config=pathtofile.yml
 
-# copy to a redis hash
+# copy to redis hash
 redisql copy -type=hash -config=pathtofile.yml
 ```
 
@@ -58,7 +58,7 @@ import (
 
 func main() {
 	config := redisql.Config{
-		SQLUser:     "josh",
+		SQLUser:     "",
 		SQLPassword: "joshmark52",
 		SQLDatabase: "celebrities",
 		SQLTable:    "celebrity",
@@ -73,13 +73,13 @@ func main() {
 }
 ```
 
-#### Other Methods:
+#### Other Methods	:
 
 ```go
-// copy to a list
+// copy to redis list
 config.CopyToList()
 
-// copy to a hash
+// copy to redis hash
 config.CopyToHash()
 ```
 
