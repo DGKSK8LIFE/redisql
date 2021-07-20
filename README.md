@@ -30,7 +30,14 @@ log:
 #### Usage:
 
 ```bash
+# copy to a redis string
 redisql copy -type=string -config=pathtofile.yml 
+
+#copy to a redis list
+redisql copy -type=list -config=pathtofile.yml
+
+# copy to a redis hash
+redisql copy -type=hash -config=pathtofile.yml
 ```
 
 ### Library
