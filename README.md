@@ -13,7 +13,7 @@ MySQL to Redis caching made easy
 go install github.com/DGKSK8LIFE/redisql/redisql
 ```
 
-Create a YAML file with the following structure:
+- Create a YAML file with the following structure:
 
 ```yaml
 sqluser: 
