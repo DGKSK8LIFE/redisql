@@ -73,6 +73,16 @@ func main() {
 }
 ```
 
+#### Other Methods:
+
+```go
+// copy to a list
+config.CopyToList()
+
+// copy to a hash
+config.CopyToHash()
+```
+
 ## Current Functionality and Limitations
 
 - [x] Simple copying of entire MySQL tables to Redis via CLI and Go Module 
