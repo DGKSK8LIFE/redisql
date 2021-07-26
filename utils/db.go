@@ -71,12 +71,12 @@ func Convert(redisType, sqluser, sqlpassword, sqldatabase, sqltable, redisaddr, 
 		fmt.Println("\nRedis Keys: \n")
 	}
 	index := 0
-	for rows.Next() {
-		if err = rows.Scan(scanArgs...); err != nil {
-			return err
-		}
-		switch redisType {
-		case "string":
+	switch redisType {
+	case "string":
+		for rows.Next() {
+			if err = rows.Scan(scanArgs...); err != nil {
+				return err
+			}
 			for i, col := range values {
 				id := fmt.Sprintf("%s:%d:%s", sqltable, index, columns[i])
 				rdb.Set(ctx, id, string(col), 0)
@@ -85,7 +85,12 @@ func Convert(redisType, sqluser, sqlpassword, sqldatabase, sqltable, redisaddr, 
 				}
 			}
 			index += 1
-		case "list":
+		}
+	case "list":
+		for rows.Next() {
+			if err = rows.Scan(scanArgs...); err != nil {
+				return err
+			}
 			fields := []string{}
 			for _, col := range values {
 				fields = append(fields, string(col))
@@ -96,7 +101,12 @@ func Convert(redisType, sqluser, sqlpassword, sqldatabase, sqltable, redisaddr, 
 				printKey(id, fields)
 			}
 			index += 1
-		case "hash":
+		}
+	case "hash":
+		for rows.Next() {
+			if err = rows.Scan(scanArgs...); err != nil {
+				return err
+			}
 			rowMap := make(map[string]string)
 			for i, col := range values {
 				rowMap[columns[i]] = string(col)
