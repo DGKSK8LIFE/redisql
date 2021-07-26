@@ -79,7 +79,10 @@ func Convert(redisType, sqluser, sqlpassword, sqldatabase, sqltable, redisaddr, 
 			}
 			for i, col := range values {
 				id := fmt.Sprintf("%s:%d:%s", sqltable, index, columns[i])
-				rdb.Set(ctx, id, string(col), 0)
+				err := rdb.Set(ctx, id, string(col), 0).Err()
+				if err != nil {
+					return err
+				}
 				if log {
 					printKey(id, string(col))
 				}
@@ -96,7 +99,10 @@ func Convert(redisType, sqluser, sqlpassword, sqldatabase, sqltable, redisaddr, 
 				fields = append(fields, string(col))
 			}
 			id := fmt.Sprintf("%s:%d", sqltable, index)
-			rdb.RPush(ctx, id, fields)
+			err := rdb.RPush(ctx, id, fields).Err()
+			if err != nil {
+				return err
+			}
 			if log {
 				printKey(id, fields)
 			}
@@ -112,7 +118,10 @@ func Convert(redisType, sqluser, sqlpassword, sqldatabase, sqltable, redisaddr, 
 				rowMap[columns[i]] = string(col)
 			}
 			id := fmt.Sprintf("%s:%d", sqltable, index)
-			rdb.HSet(ctx, id, rowMap)
+			err := rdb.HSet(ctx, id, rowMap).Err()
+			if err != nil {
+				return err
+			}
 			if log {
 				printKey(id, rowMap)
 			}
