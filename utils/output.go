@@ -14,7 +14,7 @@ func printKey(id string, m interface{}) {
 		}
 	case map[string]string:
 		for key, value := range m.(map[string]string) {
-			fmt.Printf("\t%s: %s\n", key, value)
+			fmt.Printf("%s: %s,", key, value)
 		}
 	}
 	fmt.Printf("\n")
