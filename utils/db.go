@@ -134,3 +134,7 @@ func Convert(redisType, sqluser, sqlpassword, sqldatabase, sqltable, redisaddr, 
 	fmt.Println("\nCopying Complete!")
 	return nil
 }
+
+func AutoSync(db *sql.DB, rdb *redis.Client, table string) error {
+	return nil
+}
