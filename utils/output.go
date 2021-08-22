@@ -10,7 +10,7 @@ func printKey(id string, m interface{}) {
 		fmt.Printf("\t%s", m)
 	case []string:
 		for _, value := range m.([]string) {
-			fmt.Printf("\t%s...", value)
+			fmt.Printf("\t%s ", value)
 		}
 	case map[string]string:
 		for key, value := range m.(map[string]string) {
