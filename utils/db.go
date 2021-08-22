@@ -135,6 +135,7 @@ func Convert(redisType, sqluser, sqlpassword, sqldatabase, sqltable, redisaddr, 
 	return nil
 }
 
+// AutoSync performs Convert when a change in a MySQL table is detected
 func AutoSync(db *sql.DB, rdb *redis.Client, table string) error {
 	return nil
 }
