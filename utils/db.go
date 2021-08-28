@@ -134,3 +134,7 @@ func Convert(redisType, sqluser, sqlpassword, sqldatabase, sqltable, redisaddr, 
 	fmt.Println("\nCopying Complete!")
 	return nil
 }
+
+// AutoSync automatically calls Convert() if there is a change in the desired MySQL table
+func AutoSync() {
+}
