@@ -10,8 +10,8 @@ func TestCopyToString(t *testing.T) {
 	config := redisql.Config{
 		SQLUser:     "root",
 		SQLPassword: "password",
-		SQLDatabase: "celebrities",
-		SQLTable:    "celebrity",
+		SQLDatabase: "users",
+		SQLTable:    "user",
 		RedisAddr:   "localhost:6379",
 		RedisPass:   "",
 		Log:         true,
