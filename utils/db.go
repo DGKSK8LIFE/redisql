@@ -10,8 +10,8 @@ import (
 
 var ctx = context.Background()
 
-// openRedis opens a redis connection with a desired address and password
-func openRedis(redisAddress, redisPassword string) *redis.Client {
+// OpenRedis opens a redis connection with a desired address and password
+func OpenRedis(redisAddress, redisPassword string) *redis.Client {
 	rdb := redis.NewClient(&redis.Options{
 		Addr:     redisAddress,
 		Password: redisPassword,
@@ -20,8 +20,8 @@ func openRedis(redisAddress, redisPassword string) *redis.Client {
 	return rdb
 }
 
-// openSQL opens a MySQL connection with a desired user, password, and database name
-func openSQL(user, password, database string) (*sql.DB, error) {
+// OpenSQL opens a MySQL connection with a desired user, password, and database name
+func OpenSQL(user, password, database string) (*sql.DB, error) {
 	switch password {
 	case " ":
 		db, err := sql.Open("mysql", fmt.Sprintf("%s@/%s", user, database))
@@ -40,11 +40,11 @@ func openSQL(user, password, database string) (*sql.DB, error) {
 
 // Convert is an internal function for Copy methods
 func Convert(redisType, sqluser, sqlpassword, sqldatabase, sqltable, redisaddr, redispass string, log bool) error {
-	db, err := openSQL(sqluser, sqlpassword, sqldatabase)
+	db, err := OpenSQL(sqluser, sqlpassword, sqldatabase)
 	if err != nil {
 		return err
 	}
-	rdb := openRedis(redisaddr, redispass)
+	rdb := OpenRedis(redisaddr, redispass)
 
 	defer db.Close()
 	defer rdb.Close()
