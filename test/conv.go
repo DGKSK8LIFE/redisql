@@ -70,4 +70,5 @@ func TestCopyToString(t *testing.T) {
 	if err != nil {
 		t.Error(err)
 	}
+	config.CopyToString()
 }
