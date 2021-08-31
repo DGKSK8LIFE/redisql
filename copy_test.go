@@ -1,9 +1,8 @@
-package test
+package redisql
 
 import (
 	"testing"
 
-	redisql "github.com/DGKSK8LIFE/redisql"
 	"github.com/DGKSK8LIFE/redisql/utils"
 )
 
@@ -16,7 +15,7 @@ func TestCopyToString(t *testing.T) {
 			1. Benchmark various Copy() functions
 			2. Look for edgecases and major issues in them
 	*/
-	config := redisql.Config{
+	config := Config{
 		SQLUser:     "root",
 		SQLPassword: "password",
 		SQLDatabase: "users",
