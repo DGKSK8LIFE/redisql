@@ -29,10 +29,12 @@ func TestCopyToString(t *testing.T) {
 	defer db.Close()
 	if err != nil {
 		t.Error(err)
+		t.Fail()
 	}
 	_, err = db.Exec(`CREATE DATABASE IF NOT EXISTS ?`, config.SQLDatabase)
 	if err != nil {
 		t.Error(err)
+		t.Fail()
 	}
 	_, err = db.Exec(`
 		CREATE TABLE IF NOT EXISTS user (
@@ -52,6 +54,7 @@ func TestCopyToString(t *testing.T) {
 	`)
 	if err != nil {
 		t.Error(err)
+		t.Fail()
 	}
 	_, err = db.Exec(`
 		CREATE PROCEDURE million_row_insert()
@@ -65,13 +68,16 @@ func TestCopyToString(t *testing.T) {
 	`, config.SQLTable)
 	if err != nil {
 		t.Error(err)
+		t.Fail()
 	}
 	_, err = db.Exec(`CALL million_row_insert()`)
 	if err != nil {
 		t.Error(err)
+		t.Fail()
 	}
 	err = config.CopyToString()
 	if err != nil {
 		t.Error(err)
+		t.Fail()
 	}
 }
