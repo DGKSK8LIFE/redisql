@@ -64,25 +64,6 @@ func TestCopyToString(t *testing.T) {
 			os.Exit(1)
 		}
 	}
-	// _, err = db.Exec(`
-	// 	CREATE PROCEDURE million_row_insert()
-	// 		BEGIN
-	// 			SET @i = 0;
-	// 			REPEAT
-	// 				INSERT INTO $? (NULL, "martin", "f8d1c837-719f-42a9-9a37-0e2ed7c0e458", "5'9", "9", 15, "Student and Developer", 100, "horse", "red", "apple", "555-555-5555");
-	// 				SET @i = @i + 1;
-	// 			UNTIL @i = 1000000 END REPEAT;
-	// 		END
-	// `, config.SQLTable)
-	// if err != nil {
-	// 	t.Error(err)
-	// 	t.Fail()
-	// }
-	// // _, err = db.Exec(`CALL million_row_insert()`)
-	// if err != nil {
-	// 	t.Error(err)
-	// 	t.Fail()
-	// }
 	err = config.CopyToString()
 	if err != nil {
 		t.Error(err)
