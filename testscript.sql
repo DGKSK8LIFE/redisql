@@ -14,10 +14,12 @@ CREATE TABLE IF NOT EXISTS user (
     favorite_food VARCHAR(20) NOT NULL,
     mobile_phone VARCHAR(50) NOT NULL
 );
+
+delimiter $$
 CREATE PROCEDURE insertLoop() 
 BEGIN
-    START TRANSACTION;    
-    DECLARE i INT DEFAULT 1;
+    START TRANSACTION;
+    DECLARE i INT DEFAULT 1; 
     WHILE (i <= 100000) DO
         INSERT INTO user
         VALUES (
@@ -36,8 +38,8 @@ BEGIN
         );
         SET i = i + 1;
     END WHILE;
-    COMMIT; 
-END;
+    COMMIT;
+END $$;
 /* 
  Notes: use transaction for insertion then commit once it is done for more optimal performance (MySQL)
  */
