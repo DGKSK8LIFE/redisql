@@ -1,9 +1,9 @@
-module gopls-workspace
+module github.com/DGKSK8LIFE/redisql
 
-go 1.12
+go 1.16
 
-require gopls-workspace v1.9999999.0-goplsworkspace
-
-replace gopls-workspace => /home/tarekali/code/redisql
-
-replace github.com/DGKSK8LIFE/redisql => /home/tarekali/code/redisql
+require (
+	github.com/go-redis/redis/v8 v8.11.3
+	github.com/go-sql-driver/mysql v1.6.0
+	gopkg.in/yaml.v2 v2.4.0
+)
