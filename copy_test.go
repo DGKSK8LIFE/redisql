@@ -6,7 +6,7 @@ import (
 	"testing"
 
 	"github.com/DGKSK8LIFE/redisql/utils"
-	"github.com/go-redis/redis"
+	"github.com/go-redis/redis/v8"
 )
 
 var insertString = `
