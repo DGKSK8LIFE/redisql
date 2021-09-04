@@ -4,6 +4,7 @@ import (
 	"context"
 	"database/sql"
 	"fmt"
+	"time"
 
 	"github.com/go-redis/redis/v8"
 )
@@ -136,5 +137,9 @@ func Convert(redisType, sqluser, sqlpassword, sqldatabase, sqltable, redisaddr, 
 }
 
 // AutoSync automatically calls Convert() if there is a change in the desired MySQL table
-func AutoSync() {
+func AutoSync(redisType, sqluser, sqlpassword, sqldatabase, sqltable, redisaddr, redispass string, log bool) error {
+	for {
+		Convert(redisType, sqluser, sqlpassword, sqldatabase, sqltable, redisaddr, redispass, log)
+		time.Sleep(time.Second * 5)
+	}
 }
