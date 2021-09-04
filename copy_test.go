@@ -15,7 +15,7 @@ func TestCopyToString(t *testing.T) {
 		SQLTable:    "user",
 		RedisAddr:   "localhost:6379",
 		RedisPass:   "",
-		Log:         true,
+		Log:         false,
 	}
 	db, err := utils.OpenSQL(config.SQLUser, config.SQLPassword, config.SQLDatabase)
 	defer db.Close()
