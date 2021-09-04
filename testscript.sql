@@ -35,3 +35,7 @@ VALUES (
 SET i = i + 1;
 END WHILE;
 END $$
+
+/* 
+    Notes: use transaction for insertion then commit once it is done for more optimal performance (MySQL)
+*/ 
