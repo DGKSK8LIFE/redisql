@@ -6,6 +6,7 @@ import (
 	"testing"
 
 	"github.com/DGKSK8LIFE/redisql/utils"
+	"github.com/go-redis/redis"
 )
 
 var insertString = `
@@ -25,10 +26,10 @@ var insertString = `
 	)
 `
 var config Config
-
 var ctx context.Context
+var rdb *redis.Client
 
-func PrepareTest() {
+func PrepareTest(t *testing.T) {
 	fmt.Println("Preparing Test...")
 	config = Config{
 		SQLUser:     "root",
@@ -44,7 +45,7 @@ func PrepareTest() {
 	if err != nil {
 		panic(err)
 	}
-	rdb := utils.OpenRedis(config.RedisAddr, config.RedisPass)
+	rdb = utils.OpenRedis(config.RedisAddr, config.RedisPass)
 	defer rdb.Close()
 	_, err = db.Exec(insertString)
 	if err != nil {
@@ -64,6 +65,7 @@ func PrepareTest() {
 }
 
 func TestCopyToString(t *testing.T) {
+	rdb.FlushDB(ctx)
 	fmt.Println("Testing CopyToString...")
 	err := config.CopyToString()
 	if err != nil {
@@ -73,6 +75,7 @@ func TestCopyToString(t *testing.T) {
 }
 
 func TestCopyToList(t *testing.T) {
+	rdb.FlushDB(ctx)
 	fmt.Println("Testing CopyToList...")
 	err := config.CopyToList()
 	if err != nil {
@@ -82,6 +85,7 @@ func TestCopyToList(t *testing.T) {
 }
 
 func TestCopyToHash(t *testing.T) {
+	rdb.FlushDB(ctx)
 	fmt.Println("Testing CopyToHash...")
 	err := config.CopyToHash()
 	if err != nil {
