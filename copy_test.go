@@ -37,8 +37,13 @@ func TestCopyToString(t *testing.T) {
 		favorite_color VARCHAR(10) NOT NULL,
 		favorite_food VARCHAR(20) NOT NULL,
 		mobile_phone VARCHAR(50) NOT NULL
-	);
+	)
 	`)
+	if err != nil {
+		t.Error(err)
+		t.Fail()
+	}
+	_, err = db.Exec(`DELETE FROM user`)
 	if err != nil {
 		t.Error(err)
 		t.Fail()
