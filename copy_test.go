@@ -1,8 +1,6 @@
 package redisql
 
 import (
-	"context"
-	"fmt"
 	"testing"
 
 	"github.com/DGKSK8LIFE/redisql/utils"
@@ -26,11 +24,10 @@ var insertString = `
 	)
 `
 var config Config
-var ctx context.Context
 var rdb *redis.Client
 
 func PrepareTest(t *testing.T) {
-	fmt.Println("Preparing Test...")
+	t.Log("Preparing Test...")
 	config = Config{
 		SQLUser:     "root",
 		SQLPassword: "password",
@@ -55,7 +52,7 @@ func PrepareTest(t *testing.T) {
 	if err != nil {
 		panic(err)
 	}
-	rdb.FlushDB(ctx)
+	rdb.FlushDB(utils.CTX)
 	for i := 0; i < 1000; i++ {
 		_, err = db.Exec(`INSERT INTO user VALUES (NULL, "martin", "f8d1c837-719f-42a9-9a37-0e2ed7c0e458",  "5'9", "9", 15, "Student and Developer", 100, "horse", "red", "apple", "555-555-5555")`)
 		if err != nil {
@@ -65,8 +62,8 @@ func PrepareTest(t *testing.T) {
 }
 
 func TestCopyToString(t *testing.T) {
-	rdb.FlushDB(ctx)
-	fmt.Println("Testing CopyToString...")
+	rdb.FlushDB(utils.CTX)
+	t.Log("Testing CopyToString...")
 	err := config.CopyToString()
 	if err != nil {
 		t.Error(err)
@@ -75,8 +72,8 @@ func TestCopyToString(t *testing.T) {
 }
 
 func TestCopyToList(t *testing.T) {
-	rdb.FlushDB(ctx)
-	fmt.Println("Testing CopyToList...")
+	rdb.FlushDB(utils.CTX)
+	t.Log("Testing CopyToList...")
 	err := config.CopyToList()
 	if err != nil {
 		t.Error(err)
@@ -85,8 +82,8 @@ func TestCopyToList(t *testing.T) {
 }
 
 func TestCopyToHash(t *testing.T) {
-	rdb.FlushDB(ctx)
-	fmt.Println("Testing CopyToHash...")
+	rdb.FlushDB(utils.CTX)
+	t.Log("Testing CopyToHash...")
 	err := config.CopyToHash()
 	if err != nil {
 		t.Error(err)

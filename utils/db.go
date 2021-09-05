@@ -9,7 +9,7 @@ import (
 	"github.com/go-redis/redis/v8"
 )
 
-var ctx = context.Background()
+var CTX = context.Background()
 
 // OpenRedis opens a redis connection with a desired address and password
 func OpenRedis(redisAddress, redisPassword string) *redis.Client {
@@ -80,7 +80,7 @@ func Convert(redisType, sqluser, sqlpassword, sqldatabase, sqltable, redisaddr, 
 			}
 			for i, col := range values {
 				id := fmt.Sprintf("%s:%d:%s", sqltable, index, columns[i])
-				err := rdb.Set(ctx, id, string(col), 0).Err()
+				err := rdb.Set(CTX, id, string(col), 0).Err()
 				if err != nil {
 					return err
 				}
@@ -100,7 +100,7 @@ func Convert(redisType, sqluser, sqlpassword, sqldatabase, sqltable, redisaddr, 
 				fields = append(fields, string(col))
 			}
 			id := fmt.Sprintf("%s:%d", sqltable, index)
-			err := rdb.RPush(ctx, id, fields).Err()
+			err := rdb.RPush(CTX, id, fields).Err()
 			if err != nil {
 				return err
 			}
@@ -119,7 +119,7 @@ func Convert(redisType, sqluser, sqlpassword, sqldatabase, sqltable, redisaddr, 
 				rowMap[columns[i]] = string(col)
 			}
 			id := fmt.Sprintf("%s:%d", sqltable, index)
-			err := rdb.HSet(ctx, id, rowMap).Err()
+			err := rdb.HSet(CTX, id, rowMap).Err()
 			if err != nil {
 				return err
 			}
