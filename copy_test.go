@@ -84,11 +84,11 @@ func TestCopyToList(t *testing.T) {
 	}
 }
 
-func TestCopyToHash(t *testing.T) {
-	t.Log("Testing CopyToHash...")
-	err := config.CopyToHash()
-	if err != nil {
-		t.Error(err)
-		t.Fail()
-	}
-}
+// func TestCopyToHash(t *testing.T) {
+// 	t.Log("Testing CopyToHash...")
+// 	err := config.CopyToHash()
+// 	if err != nil {
+// 		t.Error(err)
+// 		t.Fail()
+// 	}
+// }
