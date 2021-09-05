@@ -1,7 +1,10 @@
 package redisql
 
 import (
+	"io/ioutil"
+
 	"github.com/DGKSK8LIFE/redisql/utils"
+	"github.com/ghodss/yaml"
 	_ "github.com/go-sql-driver/mysql"
 )
 
@@ -17,6 +20,24 @@ type Config struct {
 	RedisAddr   string `yaml:"redisaddr"`
 	RedisPass   string `yaml:"redispass"`
 	Log         bool   `yaml:"log"`
+}
+
+func NewConfig(filePath string) (*Config, error) {
+	if err := utils.ValidateFilePath(filePath); err != nil {
+		return nil, err
+	}
+
+	file, err := ioutil.ReadFile(filePath)
+	if err != nil {
+		return nil, err
+	}
+
+	var c Config
+	if err = yaml.Unmarshal(file, &c); err != nil {
+		return nil, err
+	}
+
+	return &c, nil
 }
 
 // CopyToString reads a desired SQL table's rows and writes them to Redis strings
