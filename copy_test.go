@@ -3,6 +3,10 @@ package redisql
 import (
 	"testing"
 
+	"os"
+
+	"fmt"
+
 	"github.com/DGKSK8LIFE/redisql/utils"
 	"github.com/go-redis/redis/v8"
 )
@@ -26,8 +30,8 @@ var insertString = `
 var config Config
 var rdb *redis.Client
 
-func PrepareTest(t *testing.T) {
-	t.Log("Preparing Test...")
+func PrepareTest(m *testing.M) {
+	fmt.Println("Preparing Test...")
 	config = Config{
 		SQLUser:     "root",
 		SQLPassword: "password",
@@ -59,6 +63,8 @@ func PrepareTest(t *testing.T) {
 			panic(err)
 		}
 	}
+	exitVal := m.Run()
+	os.Exit(exitVal)
 }
 
 func TestCopyToString(t *testing.T) {
