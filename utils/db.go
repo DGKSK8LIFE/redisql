@@ -27,7 +27,7 @@ func OpenSQL(user, password, database string) (*sql.DB, error) {
 	case " ":
 		db, err := sql.Open("mysql", fmt.Sprintf("%s@/%s", user, database))
 		if err != nil {
-			// return nil, err
+			return nil, err
 		}
 		return db, nil
 	default:
