@@ -4,8 +4,8 @@ import (
 	"io/ioutil"
 
 	"github.com/DGKSK8LIFE/redisql/utils"
-	"github.com/ghodss/yaml"
 	_ "github.com/go-sql-driver/mysql"
+	"gopkg.in/yaml.v2"
 )
 
 // Configuration struct for redisql
@@ -22,6 +22,7 @@ type Config struct {
 	Log         bool   `yaml:"log"`
 }
 
+// NewConfig initializes a new object of Config structure
 func NewConfig(filePath string) (*Config, error) {
 	if err := utils.ValidateFilePath(filePath); err != nil {
 		return nil, err
