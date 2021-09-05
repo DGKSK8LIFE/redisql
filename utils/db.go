@@ -132,7 +132,9 @@ func Convert(redisType, sqluser, sqlpassword, sqldatabase, sqltable, redisaddr, 
 			return err
 		}
 	}
-	fmt.Println("\nCopying Complete!")
+	if log {
+		fmt.Println("\nCopying Complete!")
+	}
 	return nil
 }
 
