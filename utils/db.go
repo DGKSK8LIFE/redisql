@@ -74,7 +74,7 @@ func Convert(redisType, sqluser, sqlpassword, sqldatabase, sqlhost, sqlport, sql
 			return err
 		}
 	default:
-		return errors.New("Sql database type not known!")
+		return errors.New("unsupported sql database type")
 	}
 
 	rdb := OpenRedis(redisaddr, redispass)
