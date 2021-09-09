@@ -58,7 +58,7 @@ import (
 )
 
 func main() {
-	config = Config{
+	config := redisql.Config{
 		SQLType:     "mysql",
 		SQLUser:     "root",
 		SQLPassword: "password",
