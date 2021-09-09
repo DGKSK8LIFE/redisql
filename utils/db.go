@@ -24,7 +24,7 @@ func OpenRedis(redisAddress, redisPassword string) *redis.Client {
 	return rdb
 }
 
-// OpenMySQL opens a MySQL connection with a desired user, password, and database name
+// OpenMySQL opens a MySQL connection with a desired user, password, database name, host, and port
 func OpenMySQL(user, password, database, host, port string) (*sql.DB, error) {
 	connectionString := fmt.Sprintf("%s:%s@tcp(%s:%s)/%s", user, password, host, port, database)
 	db, err := sql.Open("mysql", connectionString)
