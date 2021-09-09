@@ -8,10 +8,11 @@ import (
 	"time"
 
 	"github.com/go-redis/redis/v8"
-	_ "github.com/go-sql-driver/mysql" //mysql driver neccessary to establish connection
-	_ "github.com/lib/pq"              //postgresql driver necessary to establish connection
+	_ "github.com/go-sql-driver/mysql"
+	_ "github.com/lib/pq"
 )
 
+// CTX is the global context for Redis 
 var CTX = context.Background()
 
 // OpenRedis opens a redis connection with a desired address and password
@@ -48,7 +49,6 @@ func OpenPostgres(user, password, database, host, port string) (*sql.DB, error) 
 		return nil, err
 	}
 
-	//ping to check the connection
 	err = db.Ping()
 	if err != nil {
 		return nil, err
