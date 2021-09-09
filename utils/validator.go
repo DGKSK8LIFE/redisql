@@ -5,6 +5,7 @@ import (
 	"os"
 )
 
+// ValidateFilePath validates the filepath of a given file
 func ValidateFilePath(path string) error {
 	s, err := os.Stat(path)
 	if err != nil {
