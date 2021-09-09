@@ -36,12 +36,14 @@ func TestMain(m *testing.M) {
 		SQLUser:     "root",
 		SQLPassword: "password",
 		SQLDatabase: "users",
+		SQLHost:     "localhost",
+		SQLPort:     "3306",
 		SQLTable:    "user",
 		RedisAddr:   "localhost:6379",
 		RedisPass:   "",
 		Log:         false,
 	}
-	db, err := utils.OpenSQL(config.SQLUser, config.SQLPassword, config.SQLDatabase)
+	db, err := utils.OpenMySQL(config.SQLUser, config.SQLPassword, config.SQLDatabase, config.SQLHost, config.SQLPort)
 	defer db.Close()
 	if err != nil {
 		panic(err)

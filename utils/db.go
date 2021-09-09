@@ -24,15 +24,8 @@ func OpenRedis(redisAddress, redisPassword string) *redis.Client {
 	return rdb
 }
 
-<<<<<<< HEAD
-// OpenSQL opens a MySQL connection with a desired user, password, and database name
-func OpenSQL(user, password, database string) (*sql.DB, error) {
-	switch password {
-	case " ":
-		db, err := sql.Open("mysql", fmt.Sprintf("%s@/%s", user, database))
-=======
-// openSQL opens a MySQL connection with a desired user, password, and database name
-func openMySQL(user, password, database, host, port string) (*sql.DB, error) {
+// OpenMySQL opens a MySQL connection with a desired user, password, and database name
+func OpenMySQL(user, password, database, host, port string) (*sql.DB, error) {
 	connectionString := fmt.Sprintf("%s:%s@tcp(%s:%s)/%s", user, password, host, port, database)
 	db, err := sql.Open("mysql", connectionString)
 	if err != nil {
@@ -48,7 +41,7 @@ func openMySQL(user, password, database, host, port string) (*sql.DB, error) {
 }
 
 // openPostgres opens a PostgreSQL connection with a desired user, password database name, host and port
-func openPostgres(user, password, database, host, port string) (*sql.DB, error) {
+func OpenPostgres(user, password, database, host, port string) (*sql.DB, error) {
 	connectionString := fmt.Sprintf("postgres://%s:%s@%s:%s/%s?sslmode=prefer", user, password, host, port, database)
 	db, err := sql.Open("postgres", connectionString)
 	if err != nil {
@@ -71,13 +64,12 @@ func Convert(redisType, sqluser, sqlpassword, sqldatabase, sqlhost, sqlport, sql
 
 	switch sqlType {
 	case "mysql":
-		db, err = openMySQL(sqluser, sqlpassword, sqldatabase, sqlhost, sqlport)
->>>>>>> 82838e0b81b90125d8f309fdc9a39857994e4a15
+		db, err = OpenMySQL(sqluser, sqlpassword, sqldatabase, sqlhost, sqlport)
 		if err != nil {
 			return err
 		}
 	case "postgres":
-		db, err = openPostgres(sqluser, sqlpassword, sqldatabase, sqlhost, sqlport)
+		db, err = OpenPostgres(sqluser, sqlpassword, sqldatabase, sqlhost, sqlport)
 		if err != nil {
 			return err
 		}
@@ -85,17 +77,7 @@ func Convert(redisType, sqluser, sqlpassword, sqldatabase, sqlhost, sqlport, sql
 		return errors.New("Sql database type not known!")
 	}
 
-<<<<<<< HEAD
-// Convert is an internal function for Copy methods
-func Convert(redisType, sqluser, sqlpassword, sqldatabase, sqltable, redisaddr, redispass string, log bool) error {
-	db, err := OpenSQL(sqluser, sqlpassword, sqldatabase)
-	if err != nil {
-		return err
-	}
 	rdb := OpenRedis(redisaddr, redispass)
-=======
-	rdb := openRedis(redisaddr, redispass)
->>>>>>> 82838e0b81b90125d8f309fdc9a39857994e4a15
 
 	defer db.Close()
 	defer rdb.Close()
@@ -189,9 +171,9 @@ func Convert(redisType, sqluser, sqlpassword, sqldatabase, sqltable, redisaddr, 
 }
 
 // AutoSync automatically calls Convert() if there is a change in the desired MySQL table
-func AutoSync(redisType, sqluser, sqlpassword, sqldatabase, sqltable, redisaddr, redispass string, log bool) error {
+func AutoSync(redisType, sqltype, sqluser, sqlpassword, sqldatabase, sqlhost, sqlport, sqltable, redisaddr, redispass string, log bool) error {
 	for {
-		Convert(redisType, sqluser, sqlpassword, sqldatabase, sqltable, redisaddr, redispass, log)
+		Convert(redisType, sqltype, sqluser, sqlpassword, sqldatabase, sqlhost, sqlport, sqltable, redisaddr, redispass, log)
 		time.Sleep(time.Second * 5)
 	}
 }
