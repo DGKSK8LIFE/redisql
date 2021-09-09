@@ -8,7 +8,7 @@ import (
 	"gopkg.in/yaml.v2"
 )
 
-// Configuration struct for redisql
+// Config is the configuration struct for redisql
 type Config struct {
 	SQLType     string `yaml:"sqltype"`
 	SQLUser     string `yaml:"sqluser"`
