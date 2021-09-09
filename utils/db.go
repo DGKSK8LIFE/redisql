@@ -171,9 +171,9 @@ func Convert(redisType, sqluser, sqlpassword, sqldatabase, sqlhost, sqlport, sql
 }
 
 // AutoSync automatically calls Convert() if there is a change in the desired MySQL table
-func AutoSync(redisType, sqltype, sqluser, sqlpassword, sqldatabase, sqlhost, sqlport, sqltable, redisaddr, redispass string, log bool) error {
+func AutoSync(redisType, sqlType, sqlUser, sqlPassword, sqlDatabase, sqlHost, sqlPort, sqlTable, redisAddr, redisPass string, log bool) error {
 	for {
-		Convert(redisType, sqltype, sqluser, sqlpassword, sqldatabase, sqlhost, sqlport, sqltable, redisaddr, redispass, log)
+		Convert(redisType, sqlType, sqlUser, sqlPassword, sqlDatabase, sqlHost, sqlPort, sqlTable, redisAddr, redisPass, log)
 		time.Sleep(time.Second * 5)
 	}
 }
