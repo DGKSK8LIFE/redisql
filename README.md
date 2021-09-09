@@ -58,17 +58,17 @@ import (
 )
 
 func main() {
-	config := redisql.Config{
-		SQLType:	 	"mysql",
-        SQLUser:     	"user",
-        SQLPassword: 	"password",
-        SQLDatabase: 	"celebrities",
-		SQLHost: 	 	"localhost",
-		SQLPort:     	"3306",
-        SQLTable:    	"celebrity",
-        RedisAddr:   	"localhost:6379",
-        RedisPass:   	"password",
-        Log:         	true,
+	config = Config{
+		SQLType:     "mysql",
+		SQLUser:     "root",
+		SQLPassword: "password",
+		SQLDatabase: "users",
+		SQLHost:     "localhost",
+		SQLPort:     "3306",
+		SQLTable:    "user",
+		RedisAddr:   "localhost:6379",
+		RedisPass:   "",
+		Log:         false,
 	}
 	err := config.CopyToString()
 	if err != nil {
