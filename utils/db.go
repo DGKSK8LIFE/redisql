@@ -3,10 +3,13 @@ package utils
 import (
 	"context"
 	"database/sql"
+	"errors"
 	"fmt"
 	"time"
 
 	"github.com/go-redis/redis/v8"
+	_ "github.com/go-sql-driver/mysql" //mysql driver neccessary to establish connection
+	_ "github.com/lib/pq"              //postgresql driver necessary to establish connection
 )
 
 var CTX = context.Background()
@@ -21,24 +24,68 @@ func OpenRedis(redisAddress, redisPassword string) *redis.Client {
 	return rdb
 }
 
+<<<<<<< HEAD
 // OpenSQL opens a MySQL connection with a desired user, password, and database name
 func OpenSQL(user, password, database string) (*sql.DB, error) {
 	switch password {
 	case " ":
 		db, err := sql.Open("mysql", fmt.Sprintf("%s@/%s", user, database))
-		if err != nil {
-			return nil, err
-		}
-		return db, nil
-	default:
-		db, err := sql.Open("mysql", fmt.Sprintf("%s:%s@/%s", user, password, database))
-		if err != nil {
-			return nil, err
-		}
-		return db, nil
+=======
+// openSQL opens a MySQL connection with a desired user, password, and database name
+func openMySQL(user, password, database, host, port string) (*sql.DB, error) {
+	connectionString := fmt.Sprintf("%s:%s@tcp(%s:%s)/%s", user, password, host, port, database)
+	db, err := sql.Open("mysql", connectionString)
+	if err != nil {
+		return nil, err
 	}
+
+	err = db.Ping()
+	if err != nil {
+		return nil, err
+	}
+
+	return db, nil
 }
 
+// openPostgres opens a PostgreSQL connection with a desired user, password database name, host and port
+func openPostgres(user, password, database, host, port string) (*sql.DB, error) {
+	connectionString := fmt.Sprintf("postgres://%s:%s@%s:%s/%s?sslmode=prefer", user, password, host, port, database)
+	db, err := sql.Open("postgres", connectionString)
+	if err != nil {
+		return nil, err
+	}
+
+	//ping to check the connection
+	err = db.Ping()
+	if err != nil {
+		return nil, err
+	}
+
+	return db, err
+}
+
+// Convert is an internal function for Copy methods
+func Convert(redisType, sqluser, sqlpassword, sqldatabase, sqlhost, sqlport, sqltable, redisaddr, redispass, sqlType string, log bool) error {
+	var db *sql.DB
+	var err error
+
+	switch sqlType {
+	case "mysql":
+		db, err = openMySQL(sqluser, sqlpassword, sqldatabase, sqlhost, sqlport)
+>>>>>>> 82838e0b81b90125d8f309fdc9a39857994e4a15
+		if err != nil {
+			return err
+		}
+	case "postgres":
+		db, err = openPostgres(sqluser, sqlpassword, sqldatabase, sqlhost, sqlport)
+		if err != nil {
+			return err
+		}
+	default:
+		return errors.New("Sql database type not known!")
+	}
+
+<<<<<<< HEAD
 // Convert is an internal function for Copy methods
 func Convert(redisType, sqluser, sqlpassword, sqldatabase, sqltable, redisaddr, redispass string, log bool) error {
 	db, err := OpenSQL(sqluser, sqlpassword, sqldatabase)
@@ -46,6 +93,9 @@ func Convert(redisType, sqluser, sqlpassword, sqldatabase, sqltable, redisaddr, 
 		return err
 	}
 	rdb := OpenRedis(redisaddr, redispass)
+=======
+	rdb := openRedis(redisaddr, redispass)
+>>>>>>> 82838e0b81b90125d8f309fdc9a39857994e4a15
 
 	defer db.Close()
 	defer rdb.Close()
@@ -69,7 +119,7 @@ func Convert(redisType, sqluser, sqlpassword, sqldatabase, sqltable, redisaddr, 
 	}
 
 	if log {
-		fmt.Println("\nRedis Keys: \n")
+		fmt.Printf("\nRedis Keys: \n")
 	}
 	index := 0
 	switch redisType {

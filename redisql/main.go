@@ -2,11 +2,9 @@ package main
 
 import (
 	"flag"
-	"io/ioutil"
 	"os"
 
 	redisql "github.com/DGKSK8LIFE/redisql"
-	"gopkg.in/yaml.v2"
 )
 
 var config redisql.Config
@@ -21,13 +19,11 @@ func init() {
 }
 
 func main() {
-	yamlFile, err := ioutil.ReadFile(*file)
+	config, err := redisql.NewConfig(*file)
 	if err != nil {
 		panic(err)
 	}
-	if err = yaml.Unmarshal(yamlFile, &config); err != nil {
-		panic(err)
-	}
+
 	switch *dataType {
 	case "string":
 		if err = config.CopyToString(); err != nil {

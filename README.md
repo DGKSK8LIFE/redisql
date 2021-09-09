@@ -16,9 +16,12 @@ go install github.com/DGKSK8LIFE/redisql/redisql
 Create a YAML file with the following structure:
 
 ```yaml
+sqltype:
 sqluser: 
 sqlpassword: 
 sqldatabase:
+sqlhost:
+sqlport:
 sqltable:
 redisaddr:
 redispass:
