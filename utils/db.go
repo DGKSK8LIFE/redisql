@@ -12,7 +12,7 @@ import (
 	_ "github.com/lib/pq"
 )
 
-// CTX is the global context for Redis 
+// CTX is the global context for Redis
 var CTX = context.Background()
 
 // OpenRedis opens a redis connection with a desired address and password
