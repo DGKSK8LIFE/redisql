@@ -58,18 +58,18 @@ func OpenPostgres(user, password, database, host, port string) (*sql.DB, error) 
 }
 
 // Convert is an internal function for Copy methods
-func Convert(redisType, sqluser, sqlpassword, sqldatabase, sqlhost, sqlport, sqltable, redisaddr, redispass, sqlType string, log bool) error {
+func Convert(redisType, sqlUser, sqlPassword, sqlDatabase, sqlHost, sqlPort, sqlTable, redisAddr, redisPass, sqlType string, log bool) error {
 	var db *sql.DB
 	var err error
 
 	switch sqlType {
 	case "mysql":
-		db, err = OpenMySQL(sqluser, sqlpassword, sqldatabase, sqlhost, sqlport)
+		db, err = OpenMySQL(sqlUser, sqlPassword, sqlDatabase, sqlHost, sqlPort)
 		if err != nil {
 			return err
 		}
 	case "postgres":
-		db, err = OpenPostgres(sqluser, sqlpassword, sqldatabase, sqlhost, sqlport)
+		db, err = OpenPostgres(sqlUser, sqlPassword, sqlDatabase, sqlHost, sqlPort)
 		if err != nil {
 			return err
 		}
@@ -77,12 +77,12 @@ func Convert(redisType, sqluser, sqlpassword, sqldatabase, sqlhost, sqlport, sql
 		return errors.New("unsupported sql database type")
 	}
 
-	rdb := OpenRedis(redisaddr, redispass)
+	rdb := OpenRedis(redisAddr, redisPass)
 
 	defer db.Close()
 	defer rdb.Close()
 
-	rows, err := db.Query(fmt.Sprintf(`SELECT * FROM %s`, sqltable))
+	rows, err := db.Query(fmt.Sprintf(`SELECT * FROM %s`, sqlTable))
 	if err != nil {
 		return err
 	}
@@ -111,7 +111,7 @@ func Convert(redisType, sqluser, sqlpassword, sqldatabase, sqlhost, sqlport, sql
 				return err
 			}
 			for i, col := range values {
-				id := fmt.Sprintf("%s:%d:%s", sqltable, index, columns[i])
+				id := fmt.Sprintf("%s:%d:%s", sqlTable, index, columns[i])
 				err := rdb.Set(CTX, id, string(col), 0).Err()
 				if err != nil {
 					return err
@@ -131,7 +131,7 @@ func Convert(redisType, sqluser, sqlpassword, sqldatabase, sqlhost, sqlport, sql
 			for _, col := range values {
 				fields = append(fields, string(col))
 			}
-			id := fmt.Sprintf("%s:%d", sqltable, index)
+			id := fmt.Sprintf("%s:%d", sqlTable, index)
 			err := rdb.RPush(CTX, id, fields).Err()
 			if err != nil {
 				return err
@@ -150,7 +150,7 @@ func Convert(redisType, sqluser, sqlpassword, sqldatabase, sqlhost, sqlport, sql
 			for i, col := range values {
 				rowMap[columns[i]] = string(col)
 			}
-			id := fmt.Sprintf("%s:%d", sqltable, index)
+			id := fmt.Sprintf("%s:%d", sqlTable, index)
 			err := rdb.HSet(CTX, id, rowMap).Err()
 			if err != nil {
 				return err
