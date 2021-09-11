@@ -87,6 +87,10 @@ config.CopyToList()
 config.CopyToHash()
 ```
 
+## Contributing 
+
+Check out [CONTRIBUTING](CONTRIBUTING.md)
+
 ## Current Functionality and Limitations
 
 - [x] Simple copying of entire MySQL tables to Redis via CLI and Go Module 
