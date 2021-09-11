@@ -6,7 +6,7 @@ Thank you so much for contributing to redisql, I'm working hard to grow the lib 
 
 ### Look at issues
 
-Most of the feature requests/bugs are described in the repo's issues. Ignore any with the "*done*" label, this means the desired functionality/patch is implemented in the unstable branch and will be merge in the next major release. 
+Most of the feature requests/bugs are described in the repo's issues. Ignore any with the `done` label, this means the desired functionality/patch is implemented in the unstable branch and will be merge in the next major release. 
 
 ### Get Coding
 
