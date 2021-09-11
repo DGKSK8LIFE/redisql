@@ -1,7 +1,7 @@
 # redisql 
 [![GoDoc](http://godoc.org/github.com/DGKSK8LIFE/redisql?status.svg)](http://godoc.org/github.com/DGKSK8LIFE/redisql) 
 
-MySQL to Redis caching made easy
+SQL to Redis caching made easy
 
 ## Example Usage
 
