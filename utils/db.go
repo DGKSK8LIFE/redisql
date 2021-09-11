@@ -168,11 +168,3 @@ func Convert(redisType, sqlUser, sqlPassword, sqlDatabase, sqlHost, sqlPort, sql
 	}
 	return nil
 }
-
-// AutoSync automatically calls Convert() if there is a change in the desired MySQL table
-// func AutoSync(redisType, sqlType, sqlUser, sqlPassword, sqlDatabase, sqlHost, sqlPort, sqlTable, redisAddr, redisPass string, log bool) error {
-// 	for {
-// 		Convert(redisType, sqlType, sqlUser, sqlPassword, sqlDatabase, sqlHost, sqlPort, sqlTable, redisAddr, redisPass, log)
-// 		time.Sleep(time.Second * 5)
-// 	}
-// }
