@@ -33,6 +33,7 @@ var rdb *redis.Client
 func TestMain(m *testing.M) {
 	fmt.Println("Preparing Test...")
 	config = Config{
+		SQLType:     "mysql",
 		SQLUser:     "root",
 		SQLPassword: "password",
 		SQLDatabase: "users",
