@@ -100,7 +100,7 @@ func Convert(redisType, sqlUser, sqlPassword, sqlDatabase, sqlHost, sqlPort, sql
 	}
 
 	if log {
-		fmt.Printf("\nRedis Keys: \n")
+		fmt.Printf("\nRedis Keys: \n\n")
 	}
 	index := 0
 	switch redisType {
