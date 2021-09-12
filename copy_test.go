@@ -71,7 +71,6 @@ func TestMain(m *testing.M) {
 }
 
 func TestCopyToString(t *testing.T) {
-	t.Log("Testing CopyToString...")
 	err := config.CopyToString()
 	if err != nil {
 		t.Error(err)
@@ -81,7 +80,6 @@ func TestCopyToString(t *testing.T) {
 
 func TestCopyToList(t *testing.T) {
 	rdb.FlushAll(utils.CTX)
-	t.Log("Testing CopyToList...")
 	err := config.CopyToList()
 	if err != nil {
 		t.Error(err)
@@ -91,7 +89,6 @@ func TestCopyToList(t *testing.T) {
 
 func TestCopyToHash(t *testing.T) {
 	rdb.FlushAll(utils.CTX)
-	t.Log("Testing CopyToHash...")
 	err := config.CopyToHash()
 	if err != nil {
 		t.Error(err)
