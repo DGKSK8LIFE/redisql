@@ -1,6 +1,8 @@
 package redisql
 
 import (
+	"database/sql"
+	"flag"
 	"testing"
 
 	"os"
@@ -31,9 +33,10 @@ var config Config
 var rdb *redis.Client
 
 func TestMain(m *testing.M) {
+	var sqlType string
+	flag.StringVar(&sqlType, "db", "mysql", "postgres or mysql")
 	fmt.Println("Preparing Test...")
 	config = Config{
-		SQLType:     "mysql",
 		SQLUser:     "root",
 		SQLPassword: "password",
 		SQLDatabase: "users",
@@ -44,13 +47,24 @@ func TestMain(m *testing.M) {
 		RedisPass:   "",
 		Log:         false,
 	}
-	db, err := utils.OpenMySQL(config.SQLUser, config.SQLPassword, config.SQLDatabase, config.SQLHost, config.SQLPort)
-	defer db.Close()
-	if err != nil {
-		panic(err)
+	var db *sql.DB
+	var err error
+	switch sqlType {
+	case "mysql":
+		config.SQLType = "mysql"
+		db, err = utils.OpenMySQL(config.SQLUser, config.SQLPassword, config.SQLDatabase, config.SQLHost, config.SQLPort)
+		if err != nil {
+			panic(err)
+		}
+		defer db.Close()
+	case "postgres":
+		config.SQLType = "postgres"
+		db, err = utils.OpenPostgres(config.SQLUser, config.SQLPassword, config.SQLDatabase, config.SQLHost, config.SQLPort)
+		if err != nil {
+			panic(err)
+		}
+		defer db.Close()
 	}
-	rdb = utils.OpenRedis(config.RedisAddr, config.RedisPass)
-	defer rdb.Close()
 	_, err = db.Exec(insertString)
 	if err != nil {
 		panic(err)
@@ -59,13 +73,18 @@ func TestMain(m *testing.M) {
 	if err != nil {
 		panic(err)
 	}
-	rdb.FlushAll(utils.CTX)
+
 	for i := 0; i < 50000; i++ {
 		_, err = db.Exec(`INSERT INTO user VALUES (NULL, "martin", "f8d1c837-719f-42a9-9a37-0e2ed7c0e458",  "5'9", "9", 15, "Student and Developer", 100, "horse", "red", "apple", "555-555-5555")`)
 		if err != nil {
 			panic(err)
 		}
 	}
+
+	rdb = utils.OpenRedis(config.RedisAddr, config.RedisPass)
+	defer rdb.Close()
+	rdb.FlushAll(utils.CTX)
+
 	exitVal := m.Run()
 	os.Exit(exitVal)
 }
