@@ -59,7 +59,8 @@ func TestMain(m *testing.M) {
 	if err != nil {
 		panic(err)
 	}
-	for i := 0; i < 1000; i++ {
+	rdb.FlushAll(utils.CTX)
+	for i := 0; i < 10000; i++ {
 		_, err = db.Exec(`INSERT INTO user VALUES (NULL, "martin", "f8d1c837-719f-42a9-9a37-0e2ed7c0e458",  "5'9", "9", 15, "Student and Developer", 100, "horse", "red", "apple", "555-555-5555")`)
 		if err != nil {
 			panic(err)
@@ -70,6 +71,7 @@ func TestMain(m *testing.M) {
 }
 
 func TestCopyToString(t *testing.T) {
+	rdb.FlushAll(utils.CTX)
 	t.Log("Testing CopyToString...")
 	err := config.CopyToString()
 	if err != nil {
@@ -79,6 +81,7 @@ func TestCopyToString(t *testing.T) {
 }
 
 func TestCopyToList(t *testing.T) {
+	rdb.FlushAll(utils.CTX)
 	t.Log("Testing CopyToList...")
 	err := config.CopyToList()
 	if err != nil {
@@ -87,11 +90,12 @@ func TestCopyToList(t *testing.T) {
 	}
 }
 
-// func TestCopyToHash(t *testing.T) {
-// 	t.Log("Testing CopyToHash...")
-// 	err := config.CopyToHash()
-// 	if err != nil {
-// 		t.Error(err)
-// 		t.Fail()
-// 	}
-// }
+func TestCopyToHash(t *testing.T) {
+	rdb.FlushAll(utils.CTX)
+	t.Log("Testing CopyToHash...")
+	err := config.CopyToHash()
+	if err != nil {
+		t.Error(err)
+		t.Fail()
+	}
+}
