@@ -37,6 +37,7 @@ func TestMain(m *testing.M) {
 	var rows int
 	flag.StringVar(&sqlType, "db", "mysql", "postgres or mysql")
 	flag.IntVar(&rows, "rows", 1000, "number of rows to insert before redisql tests run")
+	flag.Parse()
 	fmt.Println("Preparing Test...")
 	config = Config{
 		SQLUser:     "root",
@@ -47,7 +48,7 @@ func TestMain(m *testing.M) {
 		SQLTable:    "user",
 		RedisAddr:   "localhost:6379",
 		RedisPass:   "",
-		Log:         false,
+		Log:         true,
 	}
 	var db *sql.DB
 	var err error
