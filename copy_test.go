@@ -59,6 +59,7 @@ func TestMain(m *testing.M) {
 		defer db.Close()
 	case "postgres":
 		config.SQLType = "postgres"
+		config.SQLPort = "5432"
 		db, err = utils.OpenPostgres(config.SQLUser, config.SQLPassword, config.SQLDatabase, config.SQLHost, config.SQLPort)
 		if err != nil {
 			panic(err)
