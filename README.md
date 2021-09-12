@@ -1,4 +1,4 @@
-<img src="./logo.svg" width="175px"/>
+# <img src="./logo.svg" width="175px"/>
 
 [![GoDoc](http://godoc.org/github.com/DGKSK8LIFE/redisql?status.svg)](http://godoc.org/github.com/DGKSK8LIFE/redisql)  ![Discord](https://img.shields.io/discord/884452044566577182?color=738ADB&label=discord&style=flat-square)
 
