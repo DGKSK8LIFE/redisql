@@ -42,7 +42,7 @@ func OpenMySQL(user, password, database, host, port string) (*sql.DB, error) {
 
 // OpenPostgres opens a PostgreSQL connection with a desired user, password database name, host and port
 func OpenPostgres(user, password, database, host, port string) (*sql.DB, error) {
-	connectionString := fmt.Sprintf("postgres://%s:%s@%s:%s/%s?sslmode=prefer", user, password, host, port, database)
+	connectionString := fmt.Sprintf("postgres://%s:%s@%s:%s/%s?sslmode=disable", user, password, host, port, database)
 	db, err := sql.Open("postgres", connectionString)
 	if err != nil {
 		return nil, err
