@@ -34,7 +34,9 @@ var rdb *redis.Client
 
 func TestMain(m *testing.M) {
 	var sqlType string
+	var rows int
 	flag.StringVar(&sqlType, "db", "mysql", "postgres or mysql")
+	flag.IntVar(&rows, "rows", 1000, "number of rows to insert before redisql tests run")
 	fmt.Println("Preparing Test...")
 	config = Config{
 		SQLUser:     "root",
@@ -75,7 +77,7 @@ func TestMain(m *testing.M) {
 		panic(err)
 	}
 
-	for i := 0; i < 50000; i++ {
+	for i := 0; i < rows; i++ {
 		_, err = db.Exec(`INSERT INTO user VALUES (NULL, "martin", "f8d1c837-719f-42a9-9a37-0e2ed7c0e458",  "5'9", "9", 15, "Student and Developer", 100, "horse", "red", "apple", "555-555-5555")`)
 		if err != nil {
 			panic(err)
