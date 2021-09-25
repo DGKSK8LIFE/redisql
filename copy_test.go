@@ -85,6 +85,7 @@ func TestMain(m *testing.M) {
 	case "postgres":
 		config.SQLType = "postgres"
 		config.SQLPort = "5432"
+		config.SQLTable = "user_table"
 		db, err = utils.OpenPostgres(config.SQLUser, config.SQLPassword, config.SQLDatabase, config.SQLHost, config.SQLPort)
 		if err != nil {
 			panic(err)
@@ -102,7 +103,7 @@ func TestMain(m *testing.M) {
 	}
 
 	for i := 0; i < rows; i++ {
-		_, err = db.Exec(`INSERT INTO user VALUES (NULL, "martin", "f8d1c837-719f-42a9-9a37-0e2ed7c0e458",  "5'9", "9", 15, "Student and Developer", 100, "horse", "red", "apple", "555-555-5555")`)
+		_, err = db.Exec(`INSERT INTO (?) VALUES (NULL, "martin", "f8d1c837-719f-42a9-9a37-0e2ed7c0e458",  "5'9", "9", 15, "Student and Developer", 100, "horse", "red", "apple", "555-555-5555")`, config.SQLTable)
 		if err != nil {
 			panic(err)
 		}
