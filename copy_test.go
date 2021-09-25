@@ -13,7 +13,7 @@ import (
 	"github.com/go-redis/redis/v8"
 )
 
-var insertString = `
+var createTableMySQL = `
 	CREATE TABLE IF NOT EXISTS user (
 		id INT AUTO_INCREMENT PRIMARY KEY,
 		name VARCHAR(255) NOT NULL,
@@ -29,6 +29,24 @@ var insertString = `
 		mobile_phone VARCHAR(50) NOT NULL
 	)
 `
+
+var createTablePostgres = `
+	CREATE TABLE IF NOT EXISTS user (
+		id INT BIGSERIAL PRIMARY KEY,
+		name VARCHAR(255) NOT NULL,
+		uuid VARCHAR(64) NOT NULL,
+		height VARCHAR(5) NOT NULL,
+		shoesize SMALLINT NOT NULL,
+		age SMALLINT NOT NULL,
+		bio TEXT NOT NULL,
+		friends_count SMALLINT NOT NULL,
+		favorite_animal VARCHAR(20) NOT NULL,
+		favorite_color VARCHAR(10) NOT NULL,
+		favorite_food VARCHAR(20) NOT NULL,
+		mobile_phone VARCHAR(50) NOT NULL
+	)
+`
+
 var config Config
 var rdb *redis.Client
 
@@ -59,6 +77,10 @@ func TestMain(m *testing.M) {
 		if err != nil {
 			panic(err)
 		}
+		_, err = db.Exec(createTableMySQL)
+		if err != nil {
+			panic(err)
+		}
 		defer db.Close()
 	case "postgres":
 		config.SQLType = "postgres"
@@ -67,12 +89,13 @@ func TestMain(m *testing.M) {
 		if err != nil {
 			panic(err)
 		}
+		_, err = db.Exec(createTablePostgres)
+		if err != nil {
+			panic(err)
+		}
 		defer db.Close()
 	}
-	_, err = db.Exec(insertString)
-	if err != nil {
-		panic(err)
-	}
+
 	_, err = db.Exec(`DELETE FROM user`)
 	if err != nil {
 		panic(err)
