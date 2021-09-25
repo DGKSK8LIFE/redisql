@@ -31,19 +31,19 @@ var createTableMySQL = `
 `
 
 var createTablePostgres = `
-	CREATE TABLE IF NOT EXISTS "user" (
+	CREATE TABLE IF NOT EXISTS user_table (
     	id SERIAL PRIMARY KEY,
-    	name character varying(255) NOT NULL,
+    	name character varying NOT NULL,
     	uuid uuid NOT NULL,
     	height character varying NOT NULL,
     	shoesize integer NOT NULL,
     	age integer NOT NULL,
-    	bio character varying NOT NULL
-    	friends_count integer NOT NULL,
 		favorite_animal character varying(20) NOT NULL,
-    	favorite_color character varying(10) NOT NULL,
-    	favorite_food character varying(20) NOT NULL,
+    	friends_count integer NOT NULL,
+    	favorite_color character varying(50) NOT NULL,
+    	favorite_food character varying(50) NOT NULL,
     	mobile_phone character varying(50) NOT NULL,
+    	bio character varying NOT NULL
 	)
 `
 
