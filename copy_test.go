@@ -31,8 +31,8 @@ var createTableMySQL = `
 `
 
 var createTablePostgres = `
-	CREATE TABLE IF NOT EXISTS user (
-		id INT BIGSERIAL PRIMARY KEY,
+	CREATE TABLE IF NOT EXISTS user( 
+		id BIGSERIAL PRIMARY KEY,
 		name VARCHAR(255) NOT NULL,
 		uuid VARCHAR(64) NOT NULL,
 		height VARCHAR(5) NOT NULL,
