@@ -48,7 +48,7 @@ func TestMain(m *testing.M) {
 		SQLTable:    "user",
 		RedisAddr:   "localhost:6379",
 		RedisPass:   "",
-		Log:         true,
+		Log:         false,
 	}
 	var db *sql.DB
 	var err error
