@@ -97,13 +97,13 @@ func TestMain(m *testing.M) {
 		defer db.Close()
 	}
 
-	_, err = db.Exec(`DELETE FROM user`)
+	_, err = db.Exec(fmt.Sprintf(`DELETE FROM %s`, config.SQLTable))
 	if err != nil {
 		panic(err)
 	}
 
 	for i := 0; i < rows; i++ {
-		_, err = db.Exec(`INSERT INTO (?) VALUES (NULL, "martin", "f8d1c837-719f-42a9-9a37-0e2ed7c0e458",  "5'9", "9", 15, "Student and Developer", 100, "horse", "red", "apple", "555-555-5555")`, config.SQLTable)
+		_, err = db.Exec(fmt.Sprintf(`INSERT INTO %s (name, uuid, height, shoesize, age, bio, friends_count, favorite_animal, favorite_color, favorite_food, mobile_phone) VALUES ('martin', 'f8d1c837-719f-42a9-9a37-0e2ed7c0e458',  '5,9', 9, 15, 'Student and Developer', 100, 'horse', 'red', 'apple', '555-555-5555')`, config.SQLTable))
 		if err != nil {
 			panic(err)
 		}
