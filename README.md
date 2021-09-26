@@ -1,5 +1,5 @@
 <div align="center">
-	<img src="./logo.png" width="200px"/> 
+	<img src="./logo.png" width="250px"/> 
 	<h2>redisql</h2>
 </div>
 
