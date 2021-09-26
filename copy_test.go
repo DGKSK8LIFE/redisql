@@ -51,13 +51,8 @@ var config Config
 var rdb *redis.Client
 
 func TestMain(m *testing.M) {
-	var sqlType string
-	var rows int
-	flag.StringVar(&sqlType, "db", "mysql", "postgres or mysql")
-	flag.IntVar(&rows, "rows", 1000, "number of rows to insert before redisql tests run")
-	flag.Parse()
-	fmt.Println("Preparing Test...")
 	config = Config{
+		SQLType:     "",
 		SQLUser:     "root",
 		SQLPassword: "password",
 		SQLDatabase: "users",
@@ -68,9 +63,15 @@ func TestMain(m *testing.M) {
 		RedisPass:   "",
 		Log:         false,
 	}
+	var rows int
+	flag.StringVar(&config.SQLType, "db", "mysql", "postgres or mysql")
+	flag.IntVar(&rows, "rows", 1000, "number of rows to insert before redisql tests run")
+	flag.Parse()
+	fmt.Println("Preparing Test...")
+
 	var db *sql.DB
 	var err error
-	switch sqlType {
+	switch config.SQLType {
 	case "mysql":
 		config.SQLType = "mysql"
 		db, err = utils.OpenMySQL(config.SQLUser, config.SQLPassword, config.SQLDatabase, config.SQLHost, config.SQLPort)
