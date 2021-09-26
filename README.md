@@ -1,6 +1,6 @@
 <div align="center">
 	<img src="./logo.svg" width="250px"/> 
-	<h2>redisql</h2>
+	<h1>redisql</h1>
 </div>
 
 <div align="center">
