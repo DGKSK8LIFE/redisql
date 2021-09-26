@@ -81,7 +81,6 @@ func TestMain(m *testing.M) {
 		if err != nil {
 			panic(err)
 		}
-		defer db.Close()
 	case "postgres":
 		config.SQLPort = "5432"
 		config.SQLTable = "user_table"
@@ -93,8 +92,8 @@ func TestMain(m *testing.M) {
 		if err != nil {
 			panic(err)
 		}
-		defer db.Close()
 	}
+	defer db.Close()
 
 	_, err = db.Exec(fmt.Sprintf(`DELETE FROM %s`, config.SQLTable))
 	if err != nil {
