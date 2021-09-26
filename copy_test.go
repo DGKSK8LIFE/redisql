@@ -38,7 +38,7 @@ var createTablePostgres = `
     	height character varying NOT NULL,
     	shoesize integer NOT NULL,
     	age integer NOT NULL,
-		favorite_animal character varying(20) NOT NULL,
+	favorite_animal character varying(20) NOT NULL,
     	friends_count integer NOT NULL,
     	favorite_color character varying(50) NOT NULL,
     	favorite_food character varying(50) NOT NULL,
