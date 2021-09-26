@@ -1,6 +1,6 @@
 ---
 name: Bug Report
-about: Create a bug report to help improve redisql
+about: Create a bug report to help improve redisql!
 title: "[BUG]"
 labels: bug, Hacktoberfest, help wanted
 assignees: DGKSK8LIFE
