@@ -1,8 +1,18 @@
-<img src="./logo.svg" width="200px"/> 
+<div align="center">
+	<img src="./logo.svg" width="200px"/> 
+	<h2>redisql</h2>
+</div>
 
-[![GoDoc](http://godoc.org/github.com/DGKSK8LIFE/redisql?status.svg)](http://godoc.org/github.com/DGKSK8LIFE/redisql) [![Discord](https://img.shields.io/discord/884452044566577182?color=738ADB&label=discord&style=flat-square)](https://discord.gg/RfZU9dp9ts)
+<div align="center">
+	<a href="https://pkg.go.dev/github.com/DGKSK8LIFE/redisql">
+		<img src="http://godoc.org/github.com/DGKSK8LIFE/redisql?status.svg"/>
+	</a>
+	<a href="https://discord.gg/RfZU9dp9ts">
+		<img src="https://img.shields.io/discord/884452044566577182?color=738ADB&label=discord&style=flat-square" />
+	</a>
+</div>
 
-SQL to Redis caching made easy
+---
 
 ## Example Usage
 
