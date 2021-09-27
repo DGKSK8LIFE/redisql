@@ -5,6 +5,9 @@ import (
 	"database/sql"
 	"errors"
 	"fmt"
+	"strings"
+	"os/exec"
+	"io"
 
 	"github.com/go-redis/redis/v8"
 	_ "github.com/go-sql-driver/mysql"
@@ -99,72 +102,71 @@ func Convert(redisType, sqlUser, sqlPassword, sqlDatabase, sqlHost, sqlPort, sql
 		scanArgs[i] = &values[i]
 	}
 
-	if log {
-		fmt.Printf("\nRedis Keys: \n\n")
-	}
 	index := 0
+
+	hook := PipelineHook {Log: log}
+	rdb.AddHook(hook)
+
 	switch redisType {
 	case "string":
-		for rows.Next() {
-			if err = rows.Scan(scanArgs...); err != nil {
-				return err
+		rdb.Pipelined(CTX, func(pipe redis.Pipeliner) error {
+			for rows.Next() {
+				if err = rows.Scan(scanArgs...); err != nil {
+					return err
+				}
+				for i, col := range values {
+					id := fmt.Sprintf("%s:%d:%s", sqlTable, index, columns[i])
+					res := pipe.Set(CTX, id, string(col), 0)
+					if res.Err() != nil {
+						return res.Err()
+					}
+				}
+				index += 1
 			}
-			for i, col := range values {
-				id := fmt.Sprintf("%s:%d:%s", sqlTable, index, columns[i])
-				err := rdb.Set(CTX, id, string(col), 0).Err()
+			return nil
+		})
+	case "list":
+		rdb.Pipelined(CTX, func(pipe redis.Pipeliner) error {
+			for rows.Next() {
+				if err = rows.Scan(scanArgs...); err != nil {
+					return err
+				}
+				fields := []string{}
+				for _, col := range values {
+					fields = append(fields, string(col))
+				}
+				id := fmt.Sprintf("%s:%d", sqlTable, index)
+				err := pipe.RPush(CTX, id, fields).Err()
 				if err != nil {
 					return err
 				}
-				if log {
-					printKey(id, string(col))
-				}
+				index += 1
 			}
-			index += 1
-		}
-	case "list":
-		for rows.Next() {
-			if err = rows.Scan(scanArgs...); err != nil {
-				return err
-			}
-			fields := []string{}
-			for _, col := range values {
-				fields = append(fields, string(col))
-			}
-			id := fmt.Sprintf("%s:%d", sqlTable, index)
-			err := rdb.RPush(CTX, id, fields).Err()
-			if err != nil {
-				return err
-			}
-			if log {
-				printKey(id, fields)
-			}
-			index += 1
-		}
+			return nil
+		})
 	case "hash":
-		for rows.Next() {
-			if err = rows.Scan(scanArgs...); err != nil {
-				return err
+		rdb.Pipelined(CTX, func(pipe redis.Pipeliner) error {
+			for rows.Next() {
+				if err = rows.Scan(scanArgs...); err != nil {
+					return err
+				}
+				rowMap := make(map[string]string)
+				for i, col := range values {
+					rowMap[columns[i]] = string(col)
+				}
+				id := fmt.Sprintf("%s:%d", sqlTable, index)
+				err := pipe.HSet(CTX, id, rowMap).Err()
+				if err != nil {
+					return err
+				}
+				index += 1
 			}
-			rowMap := make(map[string]string)
-			for i, col := range values {
-				rowMap[columns[i]] = string(col)
-			}
-			id := fmt.Sprintf("%s:%d", sqlTable, index)
-			err := rdb.HSet(CTX, id, rowMap).Err()
-			if err != nil {
-				return err
-			}
-			if log {
-				printKey(id, rowMap)
-			}
-			index += 1
-		}
+			return nil
+		})
+
 		if err = rows.Err(); err != nil {
 			return err
 		}
-	}
-	if log {
-		fmt.Println("\nCopying Complete!")
 	}
 	return nil
 }
