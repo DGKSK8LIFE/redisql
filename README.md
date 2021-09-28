@@ -1,6 +1,5 @@
 <div align="center">
-	<img src="./logo.svg" width="250px"/> 
-	<h1>redisql</h1>
+	<img src="./banner.png" width="75%"/> 
 </div>
 
 <div align="center">
