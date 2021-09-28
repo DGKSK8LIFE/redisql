@@ -36,7 +36,6 @@ sqlport:
 sqltable:
 redisaddr:
 redispass:
-log:
 ```
 
 ### Usage:
@@ -79,7 +78,6 @@ func main() {
 		SQLTable:    "user",
 		RedisAddr:   "localhost:6379",
 		RedisPass:   "",
-		Log:         false,
 	}
 	err := config.CopyToString()
 	if err != nil {
