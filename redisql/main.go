@@ -7,13 +7,12 @@ import (
 	redisql "github.com/DGKSK8LIFE/redisql"
 )
 
-var config redisql.Config
 var dataType *string
 var file *string
 
 func init() {
 	copyFlag := flag.NewFlagSet("copy", flag.ExitOnError)
-	dataType = copyFlag.String("type", "hash", "Data type in Redis")
+	dataType = copyFlag.String("type", "", "Data type in Redis")
 	file = copyFlag.String("config", "", "Path to config file")
 	copyFlag.Parse(os.Args[2:])
 }
