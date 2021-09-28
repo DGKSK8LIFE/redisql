@@ -5,7 +5,6 @@ import (
 	"database/sql"
 	"errors"
 	"fmt"
-	"log"
 
 	"github.com/go-redis/redis/v8"
 	_ "github.com/go-sql-driver/mysql"
@@ -58,7 +57,7 @@ func OpenPostgres(user, password, database, host, port string) (*sql.DB, error) 
 }
 
 // Convert is an internal function for Copy methods
-func Convert(redisType, sqlUser, sqlPassword, sqlDatabase, sqlHost, sqlPort, sqlTable, redisAddr, redisPass, sqlType string, logOption bool) error {
+func Convert(redisType, sqlUser, sqlPassword, sqlDatabase, sqlHost, sqlPort, sqlTable, redisAddr, redisPass, sqlType string) error {
 	var db *sql.DB
 	var err error
 
@@ -100,9 +99,6 @@ func Convert(redisType, sqlUser, sqlPassword, sqlDatabase, sqlHost, sqlPort, sql
 		scanArgs[i] = &values[i]
 	}
 
-	if logOption {
-		log.Printf("\nRedis Keys: \n\n")
-	}
 	index := 0
 	switch redisType {
 	case "string":
@@ -115,9 +111,6 @@ func Convert(redisType, sqlUser, sqlPassword, sqlDatabase, sqlHost, sqlPort, sql
 				err := rdb.Set(CTX, id, string(col), 0).Err()
 				if err != nil {
 					return err
-				}
-				if logOption {
-					printKey(id, string(col))
 				}
 			}
 			index += 1
@@ -136,9 +129,6 @@ func Convert(redisType, sqlUser, sqlPassword, sqlDatabase, sqlHost, sqlPort, sql
 			if err != nil {
 				return err
 			}
-			if logOption {
-				printKey(id, fields)
-			}
 			index += 1
 		}
 	case "hash":
@@ -155,17 +145,11 @@ func Convert(redisType, sqlUser, sqlPassword, sqlDatabase, sqlHost, sqlPort, sql
 			if err != nil {
 				return err
 			}
-			if logOption {
-				printKey(id, rowMap)
-			}
 			index += 1
 		}
 		if err = rows.Err(); err != nil {
 			return err
 		}
-	}
-	if logOption {
-		fmt.Println("\nCopying Complete!")
 	}
 	return nil
 }

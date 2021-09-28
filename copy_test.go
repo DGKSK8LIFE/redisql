@@ -61,7 +61,6 @@ func TestMain(m *testing.M) {
 		SQLTable:    "user",
 		RedisAddr:   "localhost:6379",
 		RedisPass:   "",
-		Log:         false,
 	}
 	var rows int
 	flag.StringVar(&config.SQLType, "db", "mysql", "postgres or mysql")
