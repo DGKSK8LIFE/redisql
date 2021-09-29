@@ -2,27 +2,26 @@ package utils
 
 import (
 
-	"fmt"
 	"context"
 
 	"github.com/go-redis/redis/v8"
 )
 
 type PipelineHook struct {
-	Log bool
+	//Log bool
 }
 
 func (p PipelineHook) BeforeProcessPipeline(ctx context.Context, cmds []redis.Cmder) (context.Context, error) {
-	if p.Log {
-		fmt.Printf("Pipeline starting processing\n")
-	}
+	//if p.Log {
+		//fmt.Printf("Pipeline starting processing\n")
+	//}
 	return CTX, nil
 }
 
 func (p PipelineHook) AfterProcessPipeline(ctx context.Context, cmds []redis.Cmder) error {
-	if p.Log {
-		fmt.Printf("Pipeline finished processing\n")
-	}
+	//if p.Log {
+		//fmt.Printf("Pipeline finished processing\n")
+	//}
 	return nil
 }
 

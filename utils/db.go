@@ -5,9 +5,6 @@ import (
 	"database/sql"
 	"errors"
 	"fmt"
-	"strings"
-	"os/exec"
-	"io"
 
 	"github.com/go-redis/redis/v8"
 	_ "github.com/go-sql-driver/mysql"
@@ -104,7 +101,7 @@ func Convert(redisType, sqlUser, sqlPassword, sqlDatabase, sqlHost, sqlPort, sql
 
 	index := 0
 
-	hook := PipelineHook {Log: log}
+	hook := PipelineHook {}
 	rdb.AddHook(hook)
 
 	switch redisType {
