@@ -4,6 +4,7 @@ import (
 	"io/ioutil"
 
 	"github.com/DGKSK8LIFE/redisql/utils"
+	"github.com/DGKSK8LIFE/redisql/utils/logging"
 	_ "github.com/go-sql-driver/mysql"
 	"gopkg.in/yaml.v2"
 )
@@ -42,6 +43,7 @@ func NewConfig(filePath string) (*Config, error) {
 
 // CopyToString reads a desired SQL table's rows and writes them to Redis strings
 func (c Config) CopyToString() error {
+	logging.Log("Starting CopyToString", logging.One)
 	if err := utils.Convert("string", c.SQLUser, c.SQLPassword, c.SQLDatabase, c.SQLHost, c.SQLPort, c.SQLTable, c.RedisAddr, c.RedisPass, c.SQLType); err != nil {
 		return err
 	}
@@ -50,6 +52,7 @@ func (c Config) CopyToString() error {
 
 // CopyToList reads a desired SQL table's rows and writes them to Redis lists
 func (c Config) CopyToList() error {
+	logging.Log("Starting CopyToList", logging.One)
 	if err := utils.Convert("list", c.SQLUser, c.SQLPassword, c.SQLDatabase, c.SQLHost, c.SQLPort, c.SQLTable, c.RedisAddr, c.RedisPass, c.SQLType); err != nil {
 		return err
 	}
@@ -58,6 +61,7 @@ func (c Config) CopyToList() error {
 
 // CopyToHash reads a desired SQL table's rows and writes them to Redis hashes
 func (c Config) CopyToHash() error {
+	logging.Log("Starting CopyToHash", logging.One)
 	if err := utils.Convert("hash", c.SQLUser, c.SQLPassword, c.SQLDatabase, c.SQLHost, c.SQLPort, c.SQLTable, c.RedisAddr, c.RedisPass, c.SQLType); err != nil {
 		return err
 	}

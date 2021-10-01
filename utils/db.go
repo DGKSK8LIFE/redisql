@@ -9,6 +9,7 @@ import (
 	"github.com/go-redis/redis/v8"
 	_ "github.com/go-sql-driver/mysql"
 	_ "github.com/lib/pq"
+	"github.com/DGKSK8LIFE/redisql/utils/logging"
 )
 
 // CTX is the global context for Redis
@@ -63,11 +64,13 @@ func Convert(redisType, sqlUser, sqlPassword, sqlDatabase, sqlHost, sqlPort, sql
 
 	switch sqlType {
 	case "mysql":
+		logging.Log("Opening MySQL", logging.One)
 		db, err = OpenMySQL(sqlUser, sqlPassword, sqlDatabase, sqlHost, sqlPort)
 		if err != nil {
 			return err
 		}
 	case "postgres":
+		logging.Log("Opening PostgreSQL", logging.One)
 		db, err = OpenPostgres(sqlUser, sqlPassword, sqlDatabase, sqlHost, sqlPort)
 		if err != nil {
 			return err
@@ -151,5 +154,6 @@ func Convert(redisType, sqlUser, sqlPassword, sqlDatabase, sqlHost, sqlPort, sql
 			return err
 		}
 	}
+	logging.Log("Copying done", logging.One)
 	return nil
 }

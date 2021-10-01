@@ -5,6 +5,7 @@ import (
 	"os"
 
 	redisql "github.com/DGKSK8LIFE/redisql"
+	"github.com/DGKSK8LIFE/redisql/utils/logging"
 )
 
 var dataType *string
@@ -18,6 +19,9 @@ func init() {
 }
 
 func main() {
+	logging.InitLogging(logging.Three)
+	//utils.SetLogFile("log.txt")
+
 	config, err := redisql.NewConfig(*file)
 	if err != nil {
 		panic(err)
