@@ -14,6 +14,9 @@ import (
 // CTX is the global context for Redis
 var CTX = context.Background()
 
+// chunk is used as data chunk on redis pipeline
+var chunk = 1000
+
 // OpenRedis opens a redis connection with a desired address and password
 func OpenRedis(redisAddress, redisPassword string) *redis.Client {
 	rdb := redis.NewClient(&redis.Options{
@@ -112,6 +115,12 @@ func Convert(redisType, sqlUser, sqlPassword, sqlDatabase, sqlHost, sqlPort, sql
 				pipe.Set(CTX, id, string(col), 0)
 			}
 			index += 1
+			if index%chunk == 0 {
+				_, err := pipe.Exec(CTX)
+				if err != nil {
+					return err
+				}
+			}
 		}
 	case "list":
 		for rows.Next() {
@@ -125,6 +134,12 @@ func Convert(redisType, sqlUser, sqlPassword, sqlDatabase, sqlHost, sqlPort, sql
 			id := fmt.Sprintf("%s:%d", sqlTable, index)
 			pipe.RPush(CTX, id, fields)
 			index += 1
+			if index%chunk == 0 {
+				_, err := pipe.Exec(CTX)
+				if err != nil {
+					return err
+				}
+			}
 		}
 	case "hash":
 		for rows.Next() {
@@ -138,6 +153,12 @@ func Convert(redisType, sqlUser, sqlPassword, sqlDatabase, sqlHost, sqlPort, sql
 			id := fmt.Sprintf("%s:%d", sqlTable, index)
 			pipe.HSet(CTX, id, rowMap)
 			index += 1
+			if index%chunk == 0 {
+				_, err := pipe.Exec(CTX)
+				if err != nil {
+					return err
+				}
+			}
 		}
 		if err = rows.Err(); err != nil {
 			return err
