@@ -100,20 +100,16 @@ func Convert(redisType, sqlUser, sqlPassword, sqlDatabase, sqlHost, sqlPort, sql
 	}
 
 	index := 0
+	pipe := rdb.Pipeline()
 	switch redisType {
 	case "string":
 		for rows.Next() {
 			if err = rows.Scan(scanArgs...); err != nil {
 				return err
 			}
-			pipe := rdb.Pipeline()
 			for i, col := range values {
 				id := fmt.Sprintf("%s:%d:%s", sqlTable, index, columns[i])
 				pipe.Set(CTX, id, string(col), 0)
-			}
-			_, err := pipe.Exec(CTX)
-			if err != nil {
-				return err
 			}
 			index += 1
 		}
@@ -127,10 +123,7 @@ func Convert(redisType, sqlUser, sqlPassword, sqlDatabase, sqlHost, sqlPort, sql
 				fields = append(fields, string(col))
 			}
 			id := fmt.Sprintf("%s:%d", sqlTable, index)
-			err := rdb.RPush(CTX, id, fields).Err()
-			if err != nil {
-				return err
-			}
+			pipe.RPush(CTX, id, fields)
 			index += 1
 		}
 	case "hash":
@@ -143,15 +136,16 @@ func Convert(redisType, sqlUser, sqlPassword, sqlDatabase, sqlHost, sqlPort, sql
 				rowMap[columns[i]] = string(col)
 			}
 			id := fmt.Sprintf("%s:%d", sqlTable, index)
-			err := rdb.HSet(CTX, id, rowMap).Err()
-			if err != nil {
-				return err
-			}
+			pipe.HSet(CTX, id, rowMap)
 			index += 1
 		}
 		if err = rows.Err(); err != nil {
 			return err
 		}
+	}
+	_, err = pipe.Exec(CTX)
+	if err != nil {
+		return err
 	}
 	return nil
 }
