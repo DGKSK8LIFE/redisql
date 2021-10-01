@@ -106,12 +106,14 @@ func Convert(redisType, sqlUser, sqlPassword, sqlDatabase, sqlHost, sqlPort, sql
 			if err = rows.Scan(scanArgs...); err != nil {
 				return err
 			}
+			pipe := rdb.Pipeline()
 			for i, col := range values {
 				id := fmt.Sprintf("%s:%d:%s", sqlTable, index, columns[i])
-				err := rdb.Set(CTX, id, string(col), 0).Err()
-				if err != nil {
-					return err
-				}
+				pipe.Set(CTX, id, string(col), 0)
+			}
+			_, err := pipe.Exec(CTX)
+			if err != nil {
+				return err
 			}
 			index += 1
 		}
