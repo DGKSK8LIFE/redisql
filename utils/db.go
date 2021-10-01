@@ -14,6 +14,9 @@ import (
 // CTX is the global context for Redis
 var CTX = context.Background()
 
+// chunk is used as data chunk on redis pipeline
+var chunk = 1000
+
 // OpenRedis opens a redis connection with a desired address and password
 func OpenRedis(redisAddress, redisPassword string) *redis.Client {
 	rdb := redis.NewClient(&redis.Options{
@@ -100,6 +103,7 @@ func Convert(redisType, sqlUser, sqlPassword, sqlDatabase, sqlHost, sqlPort, sql
 	}
 
 	index := 0
+	pipe := rdb.Pipeline()
 	switch redisType {
 	case "string":
 		for rows.Next() {
@@ -108,12 +112,15 @@ func Convert(redisType, sqlUser, sqlPassword, sqlDatabase, sqlHost, sqlPort, sql
 			}
 			for i, col := range values {
 				id := fmt.Sprintf("%s:%d:%s", sqlTable, index, columns[i])
-				err := rdb.Set(CTX, id, string(col), 0).Err()
+				pipe.Set(CTX, id, string(col), 0)
+			}
+			index += 1
+			if index%chunk == 0 {
+				_, err := pipe.Exec(CTX)
 				if err != nil {
 					return err
 				}
 			}
-			index += 1
 		}
 	case "list":
 		for rows.Next() {
@@ -125,11 +132,14 @@ func Convert(redisType, sqlUser, sqlPassword, sqlDatabase, sqlHost, sqlPort, sql
 				fields = append(fields, string(col))
 			}
 			id := fmt.Sprintf("%s:%d", sqlTable, index)
-			err := rdb.RPush(CTX, id, fields).Err()
-			if err != nil {
-				return err
-			}
+			pipe.RPush(CTX, id, fields)
 			index += 1
+			if index%chunk == 0 {
+				_, err := pipe.Exec(CTX)
+				if err != nil {
+					return err
+				}
+			}
 		}
 	case "hash":
 		for rows.Next() {
@@ -141,15 +151,22 @@ func Convert(redisType, sqlUser, sqlPassword, sqlDatabase, sqlHost, sqlPort, sql
 				rowMap[columns[i]] = string(col)
 			}
 			id := fmt.Sprintf("%s:%d", sqlTable, index)
-			err := rdb.HSet(CTX, id, rowMap).Err()
-			if err != nil {
-				return err
-			}
+			pipe.HSet(CTX, id, rowMap)
 			index += 1
+			if index%chunk == 0 {
+				_, err := pipe.Exec(CTX)
+				if err != nil {
+					return err
+				}
+			}
 		}
 		if err = rows.Err(); err != nil {
 			return err
 		}
+	}
+	_, err = pipe.Exec(CTX)
+	if err != nil {
+		return err
 	}
 	return nil
 }
