@@ -27,9 +27,6 @@ func InitLogging(level uint32) {
 	if logLevelIsSet {
 		panic("Logging level has already been set! It cannot be changed midway.")
 	} 
-	if level < 0 {
-		panic("Log level cannot be negative!")
-	}
 
 	logLevelIsSet = true
 	loggingLevel = level
