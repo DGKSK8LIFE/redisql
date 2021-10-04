@@ -9,7 +9,6 @@ import (
 	"github.com/go-redis/redis/v8"
 	_ "github.com/go-sql-driver/mysql"
 	_ "github.com/lib/pq"
-	"github.com/DGKSK8LIFE/redisql/utils/logging"
 )
 
 // CTX is the global context for Redis
@@ -57,103 +56,24 @@ func OpenPostgres(user, password, database, host, port string) (*sql.DB, error) 
 	return db, err
 }
 
-// Convert is an internal function for Copy methods
-func Convert(redisType, sqlUser, sqlPassword, sqlDatabase, sqlHost, sqlPort, sqlTable, redisAddr, redisPass, sqlType string) error {
+func OpenDB(cfg Config) (*sql.DB, error) {
 	var db *sql.DB
 	var err error
 
-	switch sqlType {
+	switch cfg.SQLType {
 	case "mysql":
-		logging.Log("Opening MySQL", logging.One)
-		db, err = OpenMySQL(sqlUser, sqlPassword, sqlDatabase, sqlHost, sqlPort)
+		db, err = OpenMySQL(cfg.SQLUser, cfg.SQLPassword, cfg.SQLDatabase, cfg.SQLHost, cfg.SQLPort)
 		if err != nil {
-			return err
+			return nil, err
 		}
 	case "postgres":
-		logging.Log("Opening PostgreSQL", logging.One)
-		db, err = OpenPostgres(sqlUser, sqlPassword, sqlDatabase, sqlHost, sqlPort)
+		db, err = OpenPostgres(cfg.SQLUser, cfg.SQLPassword, cfg.SQLDatabase, cfg.SQLHost, cfg.SQLPort)
 		if err != nil {
-			return err
+			return nil, err
 		}
 	default:
-		return errors.New("unsupported sql database type")
+		return nil, errors.New("unsupported sql database type")
 	}
-
-	rdb := OpenRedis(redisAddr, redisPass)
-
-	defer db.Close()
-	defer rdb.Close()
-
-	rows, err := db.Query(fmt.Sprintf(`SELECT * FROM %s`, sqlTable))
-	if err != nil {
-		return err
-	}
-
-	defer rows.Close()
-
-	columns, err := rows.Columns()
-	if err != nil {
-		return err
-	}
-
-	values := make([]sql.RawBytes, len(columns))
-	scanArgs := make([]interface{}, len(values))
-	for i := range values {
-		scanArgs[i] = &values[i]
-	}
-
-	index := 0
-	switch redisType {
-	case "string":
-		for rows.Next() {
-			if err = rows.Scan(scanArgs...); err != nil {
-				return err
-			}
-			for i, col := range values {
-				id := fmt.Sprintf("%s:%d:%s", sqlTable, index, columns[i])
-				err := rdb.Set(CTX, id, string(col), 0).Err()
-				if err != nil {
-					return err
-				}
-			}
-			index += 1
-		}
-	case "list":
-		for rows.Next() {
-			if err = rows.Scan(scanArgs...); err != nil {
-				return err
-			}
-			fields := []string{}
-			for _, col := range values {
-				fields = append(fields, string(col))
-			}
-			id := fmt.Sprintf("%s:%d", sqlTable, index)
-			err := rdb.RPush(CTX, id, fields).Err()
-			if err != nil {
-				return err
-			}
-			index += 1
-		}
-	case "hash":
-		for rows.Next() {
-			if err = rows.Scan(scanArgs...); err != nil {
-				return err
-			}
-			rowMap := make(map[string]string)
-			for i, col := range values {
-				rowMap[columns[i]] = string(col)
-			}
-			id := fmt.Sprintf("%s:%d", sqlTable, index)
-			err := rdb.HSet(CTX, id, rowMap).Err()
-			if err != nil {
-				return err
-			}
-			index += 1
-		}
-		if err = rows.Err(); err != nil {
-			return err
-		}
-	}
-	logging.Log("Copying done", logging.One)
-	return nil
+	return db, nil
 }
+

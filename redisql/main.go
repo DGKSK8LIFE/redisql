@@ -4,8 +4,8 @@ import (
 	"flag"
 	"os"
 
-	redisql "github.com/DGKSK8LIFE/redisql"
-	"github.com/DGKSK8LIFE/redisql/utils/logging"
+	utils "github.com/DGKSK8LIFE/redisql/utils"
+	logging "github.com/DGKSK8LIFE/redisql/utils/logging"
 )
 
 var dataType *string
@@ -19,12 +19,17 @@ func init() {
 }
 
 func main() {
-	logging.InitLogging(logging.Three)
-	//utils.SetLogFile("log.txt")
-
-	config, err := redisql.NewConfig(*file)
+	config, err := utils.NewConfig(*file)
 	if err != nil {
 		panic(err)
+	}
+
+	if config.LogLevel != nil {
+		logging.InitLogging(*config.LogLevel)
+	}
+
+	if config.LogFilename != nil {
+		logging.SetLogFile(*config.LogFilename)
 	}
 
 	switch *dataType {

@@ -5,18 +5,9 @@ import (
 	"os"
 )
 
-type Level int32
-
-// Logging level. One means show only a little. Three means show all levels.
-const (
-	One   = 1
-	Two   = 2
-	Three = 3
-)
-
 var logLevelIsSet bool = false
 var logFileIsSet bool = false
-var loggingLevel Level
+var loggingLevel uint32 = 0
 
 func SetLogFile(filepath string) {
 	if logFileIsSet { 
@@ -32,11 +23,12 @@ func SetLogFile(filepath string) {
 	log.SetOutput(f)
 }
 
-func InitLogging(level Level) { 
+func InitLogging(level uint32) { 
 	if logLevelIsSet {
 		panic("Logging level has already been set! It cannot be changed midway.")
-	} else if level < 1 || level > 3 {
-		panic("Logging level must be between 1 and 3!")
+	} 
+	if level < 0 {
+		panic("Log level cannot be negative!")
 	}
 
 	logLevelIsSet = true
@@ -44,10 +36,8 @@ func InitLogging(level Level) {
 }
 
 
-func Log(s string, level Level) {
-	if level < 1 || level > 3 {
-		panic("Logging level must be between 1 and 3!")
-	} else if level <= loggingLevel { 
+func Log(s string, level uint32) {
+	if loggingLevel > 0 && level <= loggingLevel { 
 		log.Printf("Verbosity:%d | %s\n", level, s)
 	}
 }
