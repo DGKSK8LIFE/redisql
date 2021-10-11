@@ -53,7 +53,7 @@ func LogResultList(results []redis.Cmder, level uint8) {
 		fmt.Fprintf(&b, "%s\n", r)
 	}
 	log.Printf("Verbosity:%d | CHUNK INSERT:\n", level)
-	fmt.Print(b.String())
+	log.Print(b.String())
 }
 
 
