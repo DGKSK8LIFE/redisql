@@ -41,8 +41,10 @@ func copyTable(cfg Config, redisType string) error {
 	if err != nil { 
 		return err
 	}
+	logging.Log("SQL connection open", 1)
 
 	rdb := OpenRedis(cfg.RedisAddr, cfg.RedisPass)
+	logging.Log("Redis connection open", 1)
 
 	defer db.Close()
 	defer rdb.Close()
@@ -66,6 +68,19 @@ func copyTable(cfg Config, redisType string) error {
 	}
 
 	index := 0
+	chunksize := 1000
+	useChunks := true
+
+	if chunksize <= 0 {
+		useChunks = false
+	}
+
+	hook := PipelineHook {}
+	rdb.AddHook(hook)
+
+	pipe := rdb.Pipeline()
+	defer pipe.Close()
+
 	switch redisType {
 	case "string":
 		for rows.Next() {
@@ -74,13 +89,21 @@ func copyTable(cfg Config, redisType string) error {
 			}
 			for i, col := range values {
 				id := fmt.Sprintf("%s:%d:%s", cfg.SQLTable, index, columns[i])
-				err := rdb.Set(CTX, id, string(col), 0).Err()
+				res := pipe.Set(CTX, id, string(col), 0)
+				if res.Err() != nil {
+					return res.Err()
+				}
+			}
+			index += 1
+			if useChunks && index % chunksize == 0 {
+				_, err = pipe.Exec(CTX)
 				if err != nil {
 					return err
 				}
 			}
-			index += 1
 		}
+		_, err = pipe.Exec(CTX)
+		return err
 	case "list":
 		for rows.Next() {
 			if err = rows.Scan(scanArgs...); err != nil {
@@ -91,12 +114,20 @@ func copyTable(cfg Config, redisType string) error {
 				fields = append(fields, string(col))
 			}
 			id := fmt.Sprintf("%s:%d", cfg.SQLTable, index)
-			err := rdb.RPush(CTX, id, fields).Err()
+			err := pipe.RPush(CTX, id, fields).Err()
 			if err != nil {
 				return err
 			}
 			index += 1
+			if useChunks && index % chunksize == 0 {
+				_, err = pipe.Exec(CTX)
+				if err != nil {
+					return err
+				}
+			}
 		}
+		_, err = pipe.Exec(CTX)
+		return err
 	case "hash":
 		for rows.Next() {
 			if err = rows.Scan(scanArgs...); err != nil {
@@ -107,12 +138,23 @@ func copyTable(cfg Config, redisType string) error {
 				rowMap[columns[i]] = string(col)
 			}
 			id := fmt.Sprintf("%s:%d", cfg.SQLTable, index)
-			err := rdb.HSet(CTX, id, rowMap).Err()
+			err := pipe.HSet(CTX, id, rowMap).Err()
 			if err != nil {
 				return err
 			}
 			index += 1
+			if useChunks && index % chunksize == 0 {
+				_, err = pipe.Exec(CTX)
+				if err != nil {
+					return err
+				}
+			}
 		}
+		_, err = pipe.Exec(CTX)
+		if err != nil { 
+			return err
+		}
+
 		if err = rows.Err(); err != nil {
 			return err
 		}

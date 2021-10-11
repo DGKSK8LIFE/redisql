@@ -1,8 +1,12 @@
 package logging
 
 import (
+	"fmt"
 	"log"
 	"os"
+	"strings"
+
+	"github.com/go-redis/redis/v8"
 )
 
 var logLevelIsSet bool = false
@@ -39,6 +43,17 @@ func Log(s string, level uint32) {
 	}
 }
 
+func LogResultList(results []redis.Cmder, level uint32) {
+	if loggingLevel <= 0 || level > loggingLevel { 
+		return
+	}
+	var b strings.Builder
 
+	for _, r := range results {
+		fmt.Fprintf(&b, "%s\n", r)
+	}
+	log.Printf("Verbosity:%d | CHUNK INSERT:\n", level)
+	fmt.Print(b.String())
+}
 
 
