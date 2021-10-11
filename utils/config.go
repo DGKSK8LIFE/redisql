@@ -16,7 +16,7 @@ type Config struct {
 	SQLTable    string `yaml:"sqltable"`
 	RedisAddr   string `yaml:"redisaddr"`
 	RedisPass   string `yaml:"redispass"`
-	LogLevel    *uint32 `yaml:"log_level"`
+	LogLevel    *uint8 `yaml:"log_level"`
 	LogFilename *string `yaml:"log_filename"`
 }
 

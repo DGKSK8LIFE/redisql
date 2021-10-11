@@ -11,7 +11,7 @@ import (
 
 var logLevelIsSet bool = false
 var logFileIsSet bool = false
-var loggingLevel uint32 = 0
+var loggingLevel uint8 = 0
 
 func SetLogFile(filepath string) {
 	if logFileIsSet { 
@@ -27,7 +27,7 @@ func SetLogFile(filepath string) {
 	log.SetOutput(f)
 }
 
-func InitLogging(level uint32) { 
+func InitLogging(level uint8) { 
 	if logLevelIsSet {
 		panic("Logging level has already been set! It cannot be changed midway.")
 	} 
@@ -37,13 +37,13 @@ func InitLogging(level uint32) {
 }
 
 
-func Log(s string, level uint32) {
+func Log(s string, level uint8) {
 	if loggingLevel > 0 && level <= loggingLevel { 
 		log.Printf("Verbosity:%d | %s\n", level, s)
 	}
 }
 
-func LogResultList(results []redis.Cmder, level uint32) {
+func LogResultList(results []redis.Cmder, level uint8) {
 	if loggingLevel <= 0 || level > loggingLevel { 
 		return
 	}
