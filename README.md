@@ -103,7 +103,10 @@ Check out [CONTRIBUTING](CONTRIBUTING.md)
 
 ## Current Functionality and Limitations
 
-- [x] Simple copying of entire MySQL tables to Redis via CLI and Go Module 
+- [x] Copying of entire SQL tables to Redis via CLI and Go Module 
 - [x] Support for most commonly used Redis data types (strings, lists, hashes)
-- [X] Support for Postgres
+- [X] Support for Postgres and MySQL
+- [x] Advanced logging with levels and optional file output
 - [ ] Autosync
+- [ ] Dockerization
+
