@@ -35,8 +35,10 @@ sqlport:
 sqltable:
 redisaddr:
 redispass:
+log_level:
+log_filenane:
 ```
-
+(`log_level` and `log_filename` are optional. Default logging is none and default output is `stdout`)
 ### Usage:
 
 ```bash

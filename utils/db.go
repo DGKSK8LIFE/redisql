@@ -56,140 +56,24 @@ func OpenPostgres(user, password, database, host, port string) (*sql.DB, error) 
 	return db, err
 }
 
-// Convert is an internal function for Copy methods
-func Convert(redisType, sqlUser, sqlPassword, sqlDatabase, sqlHost, sqlPort, sqlTable, redisAddr, redisPass, sqlType string) error {
+func OpenDB(cfg Config) (*sql.DB, error) {
 	var db *sql.DB
 	var err error
 
-	switch sqlType {
+	switch cfg.SQLType {
 	case "mysql":
-		db, err = OpenMySQL(sqlUser, sqlPassword, sqlDatabase, sqlHost, sqlPort)
+		db, err = OpenMySQL(cfg.SQLUser, cfg.SQLPassword, cfg.SQLDatabase, cfg.SQLHost, cfg.SQLPort)
 		if err != nil {
-			return err
+			return nil, err
 		}
 	case "postgres":
-		db, err = OpenPostgres(sqlUser, sqlPassword, sqlDatabase, sqlHost, sqlPort)
+		db, err = OpenPostgres(cfg.SQLUser, cfg.SQLPassword, cfg.SQLDatabase, cfg.SQLHost, cfg.SQLPort)
 		if err != nil {
-			return err
+			return nil, err
 		}
 	default:
-		return errors.New("unsupported sql database type")
+		return nil, errors.New("unsupported sql database type")
 	}
-
-	rdb := OpenRedis(redisAddr, redisPass)
-
-	defer db.Close()
-	defer rdb.Close()
-
-	rows, err := db.Query(fmt.Sprintf(`SELECT * FROM %s`, sqlTable))
-	if err != nil {
-		return err
-	}
-
-	defer rows.Close()
-
-	columns, err := rows.Columns()
-	if err != nil {
-		return err
-	}
-
-	values := make([]sql.RawBytes, len(columns))
-	scanArgs := make([]interface{}, len(values))
-	for i := range values {
-		scanArgs[i] = &values[i]
-	}
-
-	index := 0
-	chunksize := 1000
-	useChunks := true
-
-	if chunksize <= 0 {
-		useChunks = false
-	}
-
-	hook := PipelineHook {}
-	rdb.AddHook(hook)
-
-	pipe := rdb.Pipeline()
-	defer pipe.Close()
-
-	switch redisType {
-	case "string":
-		for rows.Next() {
-			if err = rows.Scan(scanArgs...); err != nil {
-				return err
-			}
-			for i, col := range values {
-				id := fmt.Sprintf("%s:%d:%s", sqlTable, index, columns[i])
-				res := pipe.Set(CTX, id, string(col), 0)
-				if res.Err() != nil {
-					return res.Err()
-				}
-			}
-			index += 1
-			if useChunks && index % chunksize == 0 {
-				_, err = pipe.Exec(CTX)
-				if err != nil {
-					return err
-				}
-			}
-		}
-		_, err = pipe.Exec(CTX)
-		return err
-	case "list":
-		for rows.Next() {
-			if err = rows.Scan(scanArgs...); err != nil {
-				return err
-			}
-			fields := []string{}
-			for _, col := range values {
-				fields = append(fields, string(col))
-			}
-			id := fmt.Sprintf("%s:%d", sqlTable, index)
-			err := pipe.RPush(CTX, id, fields).Err()
-			if err != nil {
-				return err
-			}
-			index += 1
-			if useChunks && index % chunksize == 0 {
-				_, err = pipe.Exec(CTX)
-				if err != nil {
-					return err
-				}
-			}
-		}
-		_, err = pipe.Exec(CTX)
-		return err
-	case "hash":
-		for rows.Next() {
-			if err = rows.Scan(scanArgs...); err != nil {
-				return err
-			}
-			rowMap := make(map[string]string)
-			for i, col := range values {
-				rowMap[columns[i]] = string(col)
-			}
-			id := fmt.Sprintf("%s:%d", sqlTable, index)
-			err := pipe.HSet(CTX, id, rowMap).Err()
-			if err != nil {
-				return err
-			}
-			index += 1
-			if useChunks && index % chunksize == 0 {
-				_, err = pipe.Exec(CTX)
-				if err != nil {
-					return err
-				}
-			}
-		}
-		_, err = pipe.Exec(CTX)
-		if err != nil { 
-			return err
-		}
-
-		if err = rows.Err(); err != nil {
-			return err
-		}
-	}
-	return nil
+	return db, nil
 }
+

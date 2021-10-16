@@ -47,11 +47,11 @@ var createTablePostgres = `
 	)
 `
 
-var config Config
+var config utils.Config
 var rdb *redis.Client
 
 func TestMain(m *testing.M) {
-	config = Config{
+	config = utils.Config{
 		SQLType:     "",
 		SQLUser:     "root",
 		SQLPassword: "password",

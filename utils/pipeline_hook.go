@@ -1,10 +1,10 @@
 package utils
 
 import (
-
 	"context"
 
 	"github.com/go-redis/redis/v8"
+	"github.com/DGKSK8LIFE/redisql/utils/logging"
 )
 
 type PipelineHook struct {
@@ -19,9 +19,7 @@ func (p PipelineHook) BeforeProcessPipeline(ctx context.Context, cmds []redis.Cm
 }
 
 func (p PipelineHook) AfterProcessPipeline(ctx context.Context, cmds []redis.Cmder) error {
-	//if p.Log {
-		//fmt.Printf("Pipeline finished processing\n")
-	//}
+	logging.LogResultList(cmds, 3)
 	return nil
 }
 
