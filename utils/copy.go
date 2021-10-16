@@ -1,4 +1,4 @@
-package utils 
+package utils
 
 import (
 	"database/sql"
@@ -38,7 +38,7 @@ func (c Config) CopyToHash() error {
 func copyTable(cfg Config, redisType string) error {
 
 	db, err := OpenDB(cfg)
-	if err != nil { 
+	if err != nil {
 		return err
 	}
 	logging.Log("SQL connection open", 1)
@@ -68,14 +68,8 @@ func copyTable(cfg Config, redisType string) error {
 	}
 
 	index := 0
-	chunksize := 1000
-	useChunks := true
 
-	if chunksize <= 0 {
-		useChunks = false
-	}
-
-	hook := PipelineHook {}
+	hook := PipelineHook{}
 	rdb.AddHook(hook)
 
 	pipe := rdb.Pipeline()
@@ -95,12 +89,6 @@ func copyTable(cfg Config, redisType string) error {
 				}
 			}
 			index += 1
-			if useChunks && index % chunksize == 0 {
-				_, err = pipe.Exec(CTX)
-				if err != nil {
-					return err
-				}
-			}
 		}
 		_, err = pipe.Exec(CTX)
 		return err
@@ -119,12 +107,6 @@ func copyTable(cfg Config, redisType string) error {
 				return err
 			}
 			index += 1
-			if useChunks && index % chunksize == 0 {
-				_, err = pipe.Exec(CTX)
-				if err != nil {
-					return err
-				}
-			}
 		}
 		_, err = pipe.Exec(CTX)
 		return err
@@ -143,15 +125,9 @@ func copyTable(cfg Config, redisType string) error {
 				return err
 			}
 			index += 1
-			if useChunks && index % chunksize == 0 {
-				_, err = pipe.Exec(CTX)
-				if err != nil {
-					return err
-				}
-			}
 		}
 		_, err = pipe.Exec(CTX)
-		if err != nil { 
+		if err != nil {
 			return err
 		}
 
