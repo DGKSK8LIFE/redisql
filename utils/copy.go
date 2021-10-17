@@ -36,7 +36,6 @@ func (c Config) CopyToHash() error {
 
 // copyTable is an internal function for Copy methods
 func copyTable(cfg Config, redisType string) error {
-
 	db, err := OpenDB(cfg)
 	if err != nil {
 		return err
