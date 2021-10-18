@@ -40,10 +40,10 @@ log_filenane:
 ```
 (`log_level` and `log_filename` are optional. Default logging is none and default output is `stdout`)
 
-Logging Levels: 
-- `0`: no logging at all
-- `1`: summary of actions being performed by redisql 
-- `2`: all actions (including individual keys and their values being performed by redisql
+### Logging Levels: 
+- `0` - no logging at all
+- `1` - summary of actions being performed by redisql 
+- `2` - all actions (including individual keys and their values being performed by redisql
 
 ### Usage:
 
