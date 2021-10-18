@@ -17,9 +17,10 @@ var CTX = context.Background()
 // OpenRedis opens a redis connection with a desired address and password
 func OpenRedis(redisAddress, redisPassword string) *redis.Client {
 	rdb := redis.NewClient(&redis.Options{
-		Addr:     redisAddress,
-		Password: redisPassword,
-		DB:       0,
+		Addr:        redisAddress,
+		Password:    redisPassword,
+		DialTimeout: 1000000,
+		DB:          0,
 	})
 	return rdb
 }
@@ -76,4 +77,3 @@ func OpenDB(cfg Config) (*sql.DB, error) {
 	}
 	return db, nil
 }
-
